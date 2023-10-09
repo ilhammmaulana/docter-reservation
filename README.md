@@ -45,7 +45,7 @@ To get the Doctor Reservation API and Dashboard up and running on your local mac
 1. Clone the repository:
 
     ```shell
-    git clone https://github.com/yourusername/doctor-reservation.git
+    git clone https://github.com/ilhammmaulana/doctor-reservation.git
     ```
 
 2. Navigate to the project directory:
