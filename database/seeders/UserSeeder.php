@@ -22,6 +22,14 @@ class UserSeeder extends Seeder
             'phone' => "08954638229",
             'photo' => 'https://placehold.co/600x400?text=User+Photo'
         ])->assignRole('admin');
+        User::create([
+            "name" => 'Ilham Dokter',
+            'email' => 'admin@gmail.com',
+            'password' => bcrypt('password'), // password
+            'phone' => "08954638229",
+            'photo' => 'https://placehold.co/600x400?text=User+Photo'
+        ])->assignRole('admin');
+
 
         User::factory(10)->create();
     }

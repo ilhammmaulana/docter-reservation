@@ -17,6 +17,6 @@ class Subdistrict extends Model
 
     public function users()
     {
-        return $this->hasMany(User::class, 'subdistrict_idx');
+        return $this->hasMany(User::class, 'subdistrict_id');
     }
 }

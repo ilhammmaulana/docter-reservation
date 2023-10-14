@@ -13,7 +13,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use HasFactory, Notifiable, SoftDeletes, AssignRoleUser, HasRoles;
+    use HasFactory, Notifiable, SoftDeletes, HasRoles;
     protected $table = 'users';
     protected $fillable = ['name', 'email', 'phone', 'password', 'photo'];
     protected $primaryKey = 'id';
