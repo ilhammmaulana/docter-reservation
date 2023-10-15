@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CategoryDocter extends Model
+class DocterImage extends Model
 {
     use HasFactory;
-    protected $fillable = ['name'];
 
-    public function docters()
+
+    public function docter()
     {
-        return $this->hasMany(Docter::class, 'category_id');
+        return $this->belongsTo(Docter::class, 'docter_id');
     }
 }

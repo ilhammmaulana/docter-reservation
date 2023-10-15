@@ -8,17 +8,18 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use App\Traits\AssignRoleUser;
+use App\Traits\useUUID;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use HasFactory, Notifiable, SoftDeletes, HasRoles;
+    use HasFactory, Notifiable, SoftDeletes, HasRoles, useUUID;
     protected $table = 'users';
-    protected $fillable = ['name', 'email', 'phone', 'password', 'photo'];
+    protected $fillable = ['name', 'email', 'phone', 'password', 'photo', 'subdistrict_id'];
     protected $primaryKey = 'id';
     public $incrementing = false;
     protected $keyType = 'string';
+
 
     public function getJWTIdentifier()
     {
@@ -47,4 +48,9 @@ class User extends Authenticatable implements JWTSubject
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function subdistrict()
+    {
+        return $this->belongsTo(Subdistrict::class, 'subdistrict_id');
+    }
 }

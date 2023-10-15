@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('phone')->nullable()->unique();
             $table->string('photo')->default(null)->nullable();
             $table->string('device_token')->nullable();
+            $table->foreignUuid('subdistrict_id')->constrained('subdistricts', 'id')->nullOnDelete();
             $table->string('password');
             $table->softDeletes();
             $table->timestamps();

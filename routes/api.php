@@ -7,6 +7,7 @@ use App\Http\Controllers\API\FavoriteController;
 use App\Http\Controllers\API\OrderController;
 use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\ReviewController;
+use App\Http\Controllers\API\SubdistrictController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -41,24 +42,5 @@ Route::middleware([
     ], function () {
         Route::post('profile', [AuthController::class, 'update']);
     });
-    Route::resource('categories', CategoryProductController::class)->only('index');
-    Route::prefix('products/favorite')->group(function () {
-        Route::get('/', [FavoriteController::class, 'index']);
-        Route::post('/', [FavoriteController::class, 'store']);
-    });
-    Route::resource('products', ProductController::class)->only('index', 'show');
-    Route::prefix('products/rating')->group(function () {
-        Route::post('/', [ReviewController::class, 'store']);
-    });
-    Route::prefix('products/categories')->group(function () {
-        Route::get('/{id}', [ProductController::class, 'getByCategory']);
-    });
-    Route::resource('carts', CartController::class)->only('index', 'store', 'update', 'destroy');
-    Route::prefix('carts')->group(function () {
-        Route::post('decrement', [CartController::class, 'decrement']);
-        Route::post('increment', [CartController::class, 'increment']);
-    });
-    Route::resource('orders', OrderController::class)->only('index', 'show', 'store');
-    Route::prefix('orders')->group(function () {
-    });
+    Route::resource('subdistrict', SubdistrictController::class)->only('index');
 });

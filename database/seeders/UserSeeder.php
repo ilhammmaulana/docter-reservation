@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Subdistrict;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
@@ -15,19 +16,24 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+        $banyumanik = Subdistrict::where('name', 'like', 'Banyumanik')->first();
+        dd($banyumanik);
+
         User::create([
             "name" => 'Ilham Maulana',
             'email' => 'admin@gmail.com',
             'password' => bcrypt('password'), // password
             'phone' => "08954638229",
-            'photo' => 'https://placehold.co/600x400?text=User+Photo'
+            'photo' => 'https://placehold.co/600x400?text=User+Photo',
+            'subdistrict_id' => $banyumanik->id
         ])->assignRole('admin');
         User::create([
             "name" => 'Ilham Dokter',
             'email' => 'admin@gmail.com',
             'password' => bcrypt('password'), // password
             'phone' => "08954638229",
-            'photo' => 'https://placehold.co/600x400?text=User+Photo'
+            'photo' => 'https://placehold.co/600x400?text=User+Photo',
+            'subdistric t_id' => $banyumanik->id
         ])->assignRole('admin');
 
 

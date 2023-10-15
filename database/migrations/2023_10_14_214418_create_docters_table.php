@@ -17,9 +17,10 @@ class CreateDoctersTable extends Migration
             $table->uuid('id')->primary()->index();
             $table->string('name');
             $table->string('email')->nullable()->unique();
+            $table->string('address');
+            $table->string('description');
             $table->string('phone')->nullable()->unique();
             $table->string('photo')->default(null)->nullable();
-            $table->string('device_token')->nullable();
             $table->foreignUuid('category_docter_id')->constrained('category_docters', 'id');
             $table->string('password');
             $table->softDeletes();
