@@ -17,7 +17,7 @@ class UserSeeder extends Seeder
     public function run()
     {
         $banyumanik = Subdistrict::where('name', 'like', 'Banyumanik')->first();
-        dd($banyumanik);
+        // dd($banyumanik);
 
         User::create([
             "name" => 'Ilham Maulana',
