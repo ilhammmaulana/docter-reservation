@@ -35,7 +35,7 @@
                                     <h5 class="font-weight-bolder">
                                         {{ $count_user }}
                                     </h5>
-                               
+
                                 </div>
                             </div>
                             <div class="col-4 text-end">
@@ -47,9 +47,9 @@
                     </div>
                 </div>
             </div>
-         
+
         </div>
-    
+
         @include('layouts.footers.auth.footer')
     </div>
 @endsection

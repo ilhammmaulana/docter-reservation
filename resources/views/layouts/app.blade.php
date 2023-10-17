@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>
-        Online Shop
+        Dokter
     </title>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
     <link href="{{ asset('assets/css/nucleo-icons.css') }}" rel="stylesheet" />
@@ -66,7 +66,6 @@
                     <span class="mask bg-primary opacity-6"></span>
                 </div>
             @endif
-            {{ dd('s') }}
             @include('layouts.navbars.auth.sidenav')
             <main class="main-content border-radius-lg">
                 @yield('content')

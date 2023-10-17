@@ -40,16 +40,15 @@ Route::get('/change-password', [ChangePassword::class, 'show'])->middleware('gue
 Route::post('/change-password', [ChangePassword::class, 'update'])->middleware('guest')->name('change.perform');
 Route::get('/dashboard', [HomeController::class, 'index'])->name('home')->middleware('auth');
 Route::group(['middleware' => 'auth'], function () {
-    Route::resource('products', ProductController::class)->names('products');
     Route::resource('user-managements', UserManagementController::class)->names('user-managements');
     Route::resource('admins', AdminController::class)->names('admins');
     Route::get('/virtual-reality', [PageController::class, 'vr'])->name('virtual-reality');
     Route::get('/rtl', [PageController::class, 'rtl'])->name('rtl');
     Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');
     Route::post('/profile', [UserProfileController::class, 'update'])->name('profile.update');
-    Route::get('/profile-static', [PageController::class, 'profile'])->name('profile-static');
-    Route::get('/sign-in-static', [PageController::class, 'signin'])->name('sign-in-static');
-    Route::get('/sign-up-static', [PageController::class, 'signup'])->name('sign-up-static');
+    // Route::get('/profile-static', [PageController::class, 'profile'])->name('profile-static');
+    // Route::get('/sign-in-static', [PageController::class, 'signin'])->name('sign-in-static');
+    // Route::get('/sign-up-static', [PageController::class, 'signup'])->name('sign-up-static');
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 });
 
