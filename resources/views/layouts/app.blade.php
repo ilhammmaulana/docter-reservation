@@ -18,50 +18,59 @@
 <body class="{{ $class ?? '' }}">
     <div class="container">
         <div class="row justify-content-center">
-          <div class="col-md-6">
-              @if($errors->any())
-              <div class="alert alert-custom text-white alert-danger max-width-500 fixed-top fade border-0 show mt-5 mx-auto" role="alert">
-                  <ul class="mb-0">
-                      @foreach ($errors->all() as $error)
-                          <li>{{ $error }}</li>
-                      @endforeach
-                  </ul>
-              </div>
-              @endif
-              @if(session('success'))
-                <div  class="alert alert-custom text-white alert-success max-width-500 fixed-top fade border-0 show mt-5 mx-auto" role="alert">
-                    <i class="ni ni-check-bold"></i>
-                    {{ session('success') }}
-                    
-                </div>
-              @endif
-              @if(session('failed'))
-              <div  class="alert alert-custom text-white alert-danger max-width-500 fixed-top fade border-0 show mt-5 mx-auto" role="alert">
-                  {{ session('failed') }}
-              </div>
-            @endif
-          </div>
+            <div class="col-md-6">
+                @if ($errors->any())
+                    <div class="alert alert-custom text-white alert-danger max-width-500 fixed-top fade border-0 show mt-5 mx-auto"
+                        role="alert">
+                        <ul class="mb-0">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                @if (session('success'))
+                    <div class="alert alert-custom text-white alert-success max-width-500 fixed-top fade border-0 show mt-5 mx-auto"
+                        role="alert">
+                        <i class="ni ni-check-bold"></i>
+                        {{ session('success') }}
+
+                    </div>
+                @endif
+                @if (session('failed'))
+                    <div class="alert alert-custom text-white alert-danger max-width-500 fixed-top fade border-0 show mt-5 mx-auto"
+                        role="alert">
+                        {{ session('failed') }}
+                    </div>
+                @endif
+            </div>
         </div>
-      </div>
+    </div>
     @guest
         @yield('content')
     @endguest
 
     @auth
-        @if (in_array(request()->route()->getName(), ['sign-in-static', 'sign-up-static', 'login', 'register', 'recover-password', 'rtl', 'virtual-reality']))
+        @if (in_array(request()->route()->getName(),
+                ['sign-in-static', 'sign-up-static', 'login', 'register', 'recover-password', 'rtl', 'virtual-reality']))
             @yield('content')
         @else
-            @if (!in_array(request()->route()->getName(), ['profile', 'profile-static']))
+            @if (
+                !in_array(request()->route()->getName(),
+                    ['profile', 'profile-static']))
                 <div class="min-height-300 bg-primary position-absolute w-100"></div>
-            @elseif (in_array(request()->route()->getName(), ['profile-static', 'profile']))
-                <div class="position-absolute w-100 min-height-300 top-0" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/profile-layout-header.jpg'); background-position-y: 50%;">
+            @elseif (in_array(request()->route()->getName(),
+                    ['profile-static', 'profile']))
+                <div class="position-absolute w-100 min-height-300 top-0"
+                    style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/profile-layout-header.jpg'); background-position-y: 50%;">
                     <span class="mask bg-primary opacity-6"></span>
                 </div>
             @endif
+            {{ dd('s') }}
             @include('layouts.navbars.auth.sidenav')
-                <main class="main-content border-radius-lg">
-                    @yield('content')
-                </main>
+            <main class="main-content border-radius-lg">
+                @yield('content')
+            </main>
             @include('components.fixed-plugin')
         @endif
     @endauth
@@ -79,7 +88,6 @@
             }
             Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
         }
-        
     </script>
     <!-- Github buttons -->
     {{-- <script async defer src="https://buttons.github.io/buttons.js"></script> --}}
@@ -87,25 +95,25 @@
     <script src="{{ asset('assets/js/argon-dashboard.js') }}"></script>
     {{-- @stack('js'); --}}
     <script>
-            function hideAlert() {
-        const alertElement = document.querySelector('alert-custom');
-        if (alertElement) {
-            alertElement.style.opacity = '0';
-            setTimeout(function() {
-                alertElement.remove();
-            }, 1000);
+        function hideAlert() {
+            const alertElement = document.querySelector('alert-custom');
+            if (alertElement) {
+                alertElement.style.opacity = '0';
+                setTimeout(function() {
+                    alertElement.remove();
+                }, 1000);
+            }
         }
-    }
 
-    setTimeout(function() {
-        hideAlert();
-    }, 5000);
-    // Trigger the hideAlert function when the user clicks on the alert (optional)
-    document.addEventListener('click', function(event) {
-        if (event.target.matches('alert-custom')) {
+        setTimeout(function() {
             hideAlert();
-        }
-    });
+        }, 5000);
+        // Trigger the hideAlert function when the user clicks on the alert (optional)
+        document.addEventListener('click', function(event) {
+            if (event.target.matches('alert-custom')) {
+                hideAlert();
+            }
+        });
     </script>
 </body>
 

@@ -18,9 +18,6 @@ class RoleSeeder extends Seeder
             'name' => "admin"
         ]);
         Role::create([
-            'name' => "dokter"
-        ]);
-        Role::create([
             'name' => "user"
         ]);
         Role::create([
@@ -32,8 +29,8 @@ class RoleSeeder extends Seeder
             "guard_name" => "api"
         ]);
         Role::create([
-            'name' => "dokter",
-            "guard_name" => "api"
+            'name' => "docter",
+            "guard_name" => "docter"
         ]);
     }
 }

@@ -46,11 +46,11 @@ return [
             'provider' => 'users',
             'hash' => false,
         ],
-        'phones' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\User::class,
-            'table' => 'users',
+        'docter' => [
+            'driver' => 'session',
+            'provider' => 'docters',
         ]
+
     ],
 
     /*
@@ -75,11 +75,10 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+      'docters' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\Docter::class,
+       ],
     ],
 
     /*

@@ -2,17 +2,18 @@
 
 namespace App\Models;
 
-use App\Traits\useUUID;
+use App\Traits\DocterConfiguration;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Permission\Traits\HasRoles;
 
-class Docter extends Model
+class Docter extends Authenticatable
 {
-    use HasFactory, HasRoles, SoftDeletes, useUUID;
+    use HasFactory, HasRoles, SoftDeletes, DocterConfiguration;
+    protected $guard_name = 'docter';
     protected $table = 'docters';
-    protected $fillable = ['name', 'email', 'phone', 'password', 'photo'];
+    protected $fillable = ['name', 'email', 'password', 'photo'];
     protected $primaryKey = 'id';
     public $incrementing = false;
     protected $keyType = 'string';
@@ -22,6 +23,7 @@ class Docter extends Model
     {
         return $this->hasMany(Reservation::class, 'docter_id');
     }
+
     public function category()
     {
         return $this->belongsTo(CategoryDocter::class);

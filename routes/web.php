@@ -6,7 +6,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WEB\PageController;
 use App\Http\Controllers\WEB\RegisterController;
 use App\Http\Controllers\WEB\HomeController;
-use App\Http\Controllers\WEB\LoginController;
+use App\Http\Controllers\WEB\Docter\LoginController as DocterLoginController;
+use App\Http\Controllers\WEB\Admin\LoginController as AdminLoginController;
 use App\Http\Controllers\WEB\UserProfileController;
 use App\Http\Controllers\WEB\ResetPassword;
 use App\Http\Controllers\WEB\ChangePassword;
@@ -24,11 +25,15 @@ use App\Http\Controllers\WEB\UserManagementController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::middleware(["guest"])->group(function () {
+Route::get('/login', [DocterLoginController::class, 'show'])->name('docter.login-form');
+Route::post('/login', [DocterLoginController::class, 'login'])->name('docter.login');
+    Route::prefix('admin')->group(function () {
+        Route::get('/login', [AdminLoginController::class,'show'])->name('admin.login-form');
+        Route::post('/login', [AdminLoginController::class,'login'])->name('admin.login');
+    });
+});
 
-Route::get('/register', [RegisterController::class, 'create'])->middleware('guest')->name('register');
-Route::post('/register', [RegisterController::class, 'store'])->middleware('guest')->name('register.perform');
-Route::get('/login', [LoginController::class, 'show'])->middleware('guest')->name('login');
-Route::post('/login', [LoginController::class, 'login'])->middleware('guest')->name('login.perform');
 Route::get('/reset-password', [ResetPassword::class, 'show'])->middleware('guest')->name('reset-password');
 Route::post('/reset-password', [ResetPassword::class, 'send'])->middleware('guest')->name('reset.perform');
 Route::get('/change-password', [ChangePassword::class, 'show'])->middleware('guest')->name('change-password');
