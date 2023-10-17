@@ -55,6 +55,7 @@
                 ['sign-in-static', 'sign-up-static', 'login', 'register', 'recover-password', 'rtl', 'virtual-reality']))
             @yield('content')
         @else
+            {{-- Bagian ini mas masih ada kurang kondisi --}}
             @if (
                 !in_array(request()->route()->getName(),
                     ['profile', 'profile-static']))
