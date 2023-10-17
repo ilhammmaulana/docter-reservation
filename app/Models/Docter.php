@@ -6,11 +6,12 @@ use App\Traits\DocterConfiguration;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 
 class Docter extends Authenticatable
 {
-    use HasFactory, HasRoles, SoftDeletes, DocterConfiguration;
+    use HasFactory, HasRoles, Notifiable, SoftDeletes, DocterConfiguration;
     protected $guard_name = 'docter';
     protected $table = 'docters';
     protected $fillable = ['name', 'email', 'password', 'photo'];

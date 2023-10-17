@@ -37,7 +37,7 @@ class LoginController extends Controller
                 $request->session()->regenerate();
                 return redirect()->intended('dashboard');
             } else {
-                Auth::guard('user')->logout();
+                Auth::guard('web')->logout();
                 return redirect()->route('admin.login-form')->with('failed', 'You do not have access to the dashboard.');
             }
         }

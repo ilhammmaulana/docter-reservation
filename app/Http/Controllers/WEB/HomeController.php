@@ -29,6 +29,7 @@ class HomeController extends Controller
     public function index()
     {
         $countUser = $this->userRepository->countUsers();
+        // dd(auth('docter')->user());
         return view('pages.dashboard', [
             "count_user" => $countUser,
         ]);

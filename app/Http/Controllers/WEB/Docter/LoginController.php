@@ -30,9 +30,9 @@ class LoginController extends DocterController
             'password' => ['required'],
         ]);
 
-        if (Auth::guard('user')->attempt(['email' => $request->email, 'password' => $request->password])) {
-            $user = Auth::guard('user')->user(); // Get the authenticated user using the 'user' guard
-            if ($user->hasRole('admin')) {
+        if (Auth::guard('docter')->attempt(['email' => $request->email, 'password' => $request->password])) {
+            $user = Auth::guard('docter')->user(); // Get the authenticated user using the 'docter' guard
+            if ($user->hasRole('docter')) {
                 $request->session()->regenerate();
                 return redirect()->intended('dashboard');
             } else {

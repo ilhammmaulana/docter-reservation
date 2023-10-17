@@ -49,7 +49,7 @@ Route::group(['middleware' => 'auth'], function () {
     // Route::get('/profile-static', [PageController::class, 'profile'])->name('profile-static');
     // Route::get('/sign-in-static', [PageController::class, 'signin'])->name('sign-in-static');
     // Route::get('/sign-up-static', [PageController::class, 'signup'])->name('sign-up-static');
-    Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+    Route::post('logout', [AdminLoginController::class, 'logout'])->name('logout');
 });
 
 Route::fallback(function () {
