@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\Carbon;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Blade;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -14,7 +15,20 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        Blade::directive('authOrDocter', function () {
+            return "<?php if((auth('docter')->check() && auth('docter')->user()->hasRole('docter')) || (auth('web')->check() && auth('web')->user()->hasRole('admin'))): ?>";
+        });
+
+        Blade::directive('endauthOrDocter', function () {
+            return "<?php endif; ?>";
+        });
+        Blade::directive('guestOrNotAdminOrDocter', function () {
+            return "<?php if(!(auth('web')->check())&& !(auth('docter')->check())): ?>";
+        });
+
+        Blade::directive('endguestOrNotAdminOrDocter', function () {
+            return "<?php endif; ?>";
+        });
     }
 
     /**

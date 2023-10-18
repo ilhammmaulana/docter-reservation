@@ -17,8 +17,7 @@ class UserSeeder extends Seeder
     public function run()
     {
         $banyumanik = Subdistrict::where('name', 'like', 'Banyumanik')->first();
-        // dd($banyumanik);
-
+        dd($banyumanik);
         User::create([
             "name" => 'Ilham Maulana',
             'email' => 'admin@gmail.com',
@@ -27,6 +26,15 @@ class UserSeeder extends Seeder
             'photo' => 'https://placehold.co/600x400?text=User+Photo',
             'subdistrict_id' => $banyumanik->id
         ])->assignRole('admin');
+        User::create([
+            "name" => 'Ilham Dokter',
+            'email' => 'admin@gmail.com',
+            'password' => bcrypt('password'), // password
+            'phone' => "08954638229",
+            'photo' => 'https://placehold.co/600x400?text=User+Photo',
+            'subdistric t_id' => $banyumanik->id
+        ])->assignRole('admin');
+
 
         User::factory(10)->create();
     }

@@ -16,12 +16,13 @@ class CheckDocterOrAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-    if (auth('web')->check() || auth('docter')->check()) {
-        if (auth('docter')->user()->hasRole('docter') || auth('web')->user()->hasRole('admin')) {
-            return $next($request); 
+        if (auth('docter')->check() && auth('docter')->user()->hasRole('docter')) {
+            return $next($request);
+        } elseif (auth('web')->check() && auth('web')->user()->hasRole('admin')) {
+            return $next($request);
         }
-    }
 
-    return redirect()->route('docter.login-form'); 
+
+        return redirect()->route('docter.login-form');
     }
 }

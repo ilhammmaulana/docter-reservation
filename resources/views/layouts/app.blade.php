@@ -46,16 +46,15 @@
             </div>
         </div>
     </div>
-    @guest
+    @guestOrNotAdminOrDocter
         @yield('content')
-    @endguest
+    @endguestOrNotAdminOrDocter
 
-    @auth
+    @authOrDocter
         @if (in_array(request()->route()->getName(),
-                ['sign-in-static', 'sign-up-static', 'login', 'register', 'recover-password', 'rtl', 'virtual-reality']))
+                ['sign-in-static', 'sign-up-static', 'login', 'register', 'recover-password', 'rtl', 'virtual-reality', 'dashboard']))
             @yield('content')
         @else
-            {{-- Bagian ini mas masih ada kurang kondisi --}}
             @if (
                 !in_array(request()->route()->getName(),
                     ['profile', 'profile-static']))
@@ -73,7 +72,7 @@
             </main>
             @include('components.fixed-plugin')
         @endif
-    @endauth
+    @endauthOrDocter
 
     <!--   Core JS Files   -->
     <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>

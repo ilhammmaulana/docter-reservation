@@ -2,6 +2,10 @@
 
 @section('content')
     @include('layouts.navbars.auth.topnav', ['title' => 'Your Profile'])
+
+    @php
+        $user = getDataUser();
+    @endphp
     <div class="card shadow-lg mx-4 card-profile-bottom">
         <div class="card-body p-3">
             <div class="row gx-4">
@@ -12,9 +16,6 @@
                 </div>
                 <div class="col-auto my-auto">
                     <div class="h-100">
-                        <h5 class="mb-1">
-                            {{ auth()->user()->firstname ?? 'Firstname' }} {{ auth()->user()->lastname ?? 'Lastname' }}
-                        </h5>
                         <p class="mb-0 font-weight-bold text-sm">
                             Public Relations
                         </p>
@@ -71,25 +72,25 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="example-text-input" class="form-control-label">Username</label>
-                                        <input class="form-control" type="text" name="username" value="{{ old('username', auth()->user()->username) }}">
+                                            <input  class="form-control" type="text" name="username" value="{{ old('username', $user->username) }}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="example-text-input" class="form-control-label">Email address</label>
-                                        <input class="form-control" type="email" name="email" value="{{ old('email', auth()->user()->email) }}">
+                                        <input class="form-control" type="email" name="email" value="{{ old('email', $user->email) }}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="example-text-input" class="form-control-label">First name</label>
-                                        <input class="form-control" type="text" name="firstname"  value="{{ old('firstname', auth()->user()->firstname) }}">
+                                        <input class="form-control" type="text" name="firstname"  value="{{ old('firstname', $user->firstname) }}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="example-text-input" class="form-control-label">Last name</label>
-                                        <input class="form-control" type="text" name="lastname" value="{{ old('lastname', auth()->user()->lastname) }}">
+                                        <input class="form-control" type="text" name="lastname" value="{{ old('lastname', $user->lastname) }}">
                                     </div>
                                 </div>
                             </div>
@@ -100,25 +101,25 @@
                                     <div class="form-group">
                                         <label for="example-text-input" class="form-control-label">Address</label>
                                         <input class="form-control" type="text" name="address"
-                                            value="{{ old('address', auth()->user()->address) }}">
+                                            value="{{ old('address', $user->address) }}">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="example-text-input" class="form-control-label">City</label>
-                                        <input class="form-control" type="text" name="city" value="{{ old('city', auth()->user()->city) }}">
+                                        <input class="form-control" type="text" name="city" value="{{ old('city', $user->city) }}">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="example-text-input" class="form-control-label">Country</label>
-                                        <input class="form-control" type="text" name="country" value="{{ old('country', auth()->user()->country) }}">
+                                        <input class="form-control" type="text" name="country" value="{{ old('country', $user->country) }}">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="example-text-input" class="form-control-label">Postal code</label>
-                                        <input class="form-control" type="text" name="postal" value="{{ old('postal', auth()->user()->postal) }}">
+                                        <input class="form-control" type="text" name="postal" value="{{ old('postal', $user->postal) }}">
                                     </div>
                                 </div>
                             </div>
@@ -129,7 +130,7 @@
                                     <div class="form-group">
                                         <label for="example-text-input" class="form-control-label">About me</label>
                                         <input class="form-control" type="text" name="about"
-                                            value="{{ old('about', auth()->user()->about) }}">
+                                            value="{{ old('about', $user->about) }}">
                                     </div>
                                 </div>
                             </div>
