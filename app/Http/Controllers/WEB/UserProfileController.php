@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\WEB;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\WEB\UpdateProfileRequest;
 use App\Repositories\DocterRepository;
 use App\Repositories\SubdistrictRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
 class UserProfileController extends Controller
@@ -35,20 +37,32 @@ class UserProfileController extends Controller
             "subdistricts" => $this->subdistrictRepository->all()
         ]);
     }
-    public function update(Request $request)
+    public function update(UpdateProfileRequest $updateProfileRequest)
     {
-        $attributes = $request->validate([
-            'username' => ['required', 'max:255', 'min:2'],
-            'firstname' => ['max:100'],
-            'lastname' => ['max:100'],
-            'email' => ['required', 'email', 'max:255',  Rule::unique('users')->ignore(auth()->user()->id),],
-            'address' => ['max:100'],
-            'city' => ['max:100'],
-            'country' => ['max:100'],
-            'postal' => ['max:100'],
-            'about' => ['max:255']
-        ]);
+        $photo = $updateProfileRequest->file('photo');
 
-        return back()->with('succes', 'Profile succesfully updated');
+        $sessionUser = getDataUser();
+
+        if (!isDocter()) {
+            $user = $this->userRepository->getUserById($sessionUser->id);
+        } else {
+            $user = $this->docterRepository->getDocterById($sessionUser->id);
+        }
+        $input = $updateProfileRequest->only('name', 'email', 'phone', 'subdistrict_id');
+        if (isDocter()) {
+            $input['description'] = $updateProfileRequest->input('description');
+            $input['address'] = $updateProfileRequest->input('address');
+        }
+        if ($photo) {
+            $pathDelete = $user->photo;
+            if ($pathDelete !== null) {
+                Storage::delete($pathDelete);
+            }
+            $path = Storage::disk('public')->put('images/users', $photo);
+            $user->photo = 'public/' . $path;
+        }
+
+        $user->update($input);
+        return back()->with('success', 'Profile successfully updated');
     }
 }

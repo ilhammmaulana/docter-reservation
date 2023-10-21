@@ -50,8 +50,12 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 Route::fallback(function () {
-    if (!request()->is('public/*')) {
+    if (request()->is('api/*')) {
+        return response()->json([
+            'status' => 404,
+            'message' => 'URL Not found!',
+        ], 404);
+    } else {
         return redirect()->route('docter.login-form');
     }
-    abort(404);
 });

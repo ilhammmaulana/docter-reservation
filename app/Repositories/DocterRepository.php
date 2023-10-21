@@ -8,6 +8,8 @@ class DocterRepository
 {
     public function all()
     {
+        $docters = Docter::with(['images', 'category', 'subdistrict'])->get();
+        return $docters;
     }
     public function getDocterById($id)
     {

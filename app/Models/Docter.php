@@ -14,7 +14,7 @@ class Docter extends Authenticatable
     use HasFactory, HasRoles, Notifiable, SoftDeletes, DocterConfiguration;
     protected $guard_name = 'docter';
     protected $table = 'docters';
-    protected $fillable = ['name', 'email', 'password', 'photo', 'subdistrict_id'];
+    protected $fillable = ['name', 'email', 'password', 'photo', 'subdistrict_id', 'description'];
     protected $primaryKey = 'id';
     public $incrementing = false;
     protected $keyType = 'string';
@@ -27,7 +27,7 @@ class Docter extends Authenticatable
 
     public function category()
     {
-        return $this->belongsTo(CategoryDocter::class);
+        return $this->belongsTo(CategoryDocter::class, 'category_docter_id');
     }
 
     public function images()

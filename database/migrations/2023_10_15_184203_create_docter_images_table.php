@@ -14,7 +14,7 @@ class CreateDocterImagesTable extends Migration
     public function up()
     {
         Schema::create('docter_images', function (Blueprint $table) {
-            $table->text('image');
+            $table->text('image');  
             $table->foreignUuid('docter_id')->constrained('docters')->cascadeOnDelete();
             $table->timestamps();
         });

@@ -16,10 +16,12 @@ class DocterResource extends JsonResource
     {
         return [
             "id" => $this->id,
+            "photo" => $this->photo === null ? null : url($this->photo),
+            "images" => DocterImageResource::collection($this->images),
             "name" => $this->name,
             "address" => $this->address,
             "category" => $this->category,
-
+            "subdistrict" => new SubdistrictResource($this->subdistrict),
         ];
     }
 }
