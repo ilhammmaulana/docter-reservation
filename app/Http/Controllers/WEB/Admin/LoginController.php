@@ -1,11 +1,8 @@
-    <?php
+<?php
 
 namespace App\Http\Controllers\WEB\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\DocterController;
-use App\Models\Docter;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -45,12 +42,13 @@ class LoginController extends Controller
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ]);
-
     }
 
     public function logout(Request $request)
     {
         Auth::logout();
+        Auth::guard('docter')->logout();
+
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect('/login');
