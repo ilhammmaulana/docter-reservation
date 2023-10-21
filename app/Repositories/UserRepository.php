@@ -21,7 +21,6 @@ class UserRepository
         $userRole = Role::where('name', $roleName)->where('guard_name', $guard)->first();
 
         if (!$userRole) {
-            // Handle the case where the "user" role doesn't exist
             return null;
         }
 

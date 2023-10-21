@@ -1,23 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\WEB\Admin;
 
-use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\API\SubdistrictResource;
-use App\Repositories\SubdistrictRepository;
 use Illuminate\Http\Request;
 
-class SubdistrictController extends ApiController
+class DocterController extends Controller
 {
-    private $subdistrictRepository;
-    /**
-     * Class constructor.
-     */
-    public function __construct(SubdistrictRepository $subdistrictRepository)
-    {
-        $this->subdistrictRepository = $subdistrictRepository;
-    }
     /**
      * Display a listing of the resource.
      *
@@ -25,7 +14,7 @@ class SubdistrictController extends ApiController
      */
     public function index()
     {
-        return $this->requestSuccessData(SubdistrictResource::collection($this->subdistrictRepository->all()));
+        //
     }
 
     /**

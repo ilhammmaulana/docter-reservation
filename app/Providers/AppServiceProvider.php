@@ -29,6 +29,13 @@ class AppServiceProvider extends ServiceProvider
         Blade::directive('endguestOrNotAdminOrDocter', function () {
             return "<?php endif; ?>";
         });
+        Blade::directive('docter', function () {
+            return "<?php if(isDocter()): ?>";
+        });
+
+        Blade::directive('endDocter', function () {
+            return "<?php endif; ?>";
+        });
     }
 
     /**

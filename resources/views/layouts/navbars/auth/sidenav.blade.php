@@ -4,7 +4,14 @@
         <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
             aria-hidden="true" id="iconSidenav"></i>
         <a class="navbar-brand m-0" href="{{ route('home') }}" target="_blank">
-            <span class="ms-1 font-weight-bold h5">Online shop</span>
+            <span class="ms-1 font-weight-bold h5">
+                @role('admin') 
+                    Admin dashboard 
+                @endrole 
+                @docter
+                    Doctor Dashboard
+                @endDocter
+            </span>
         </a>
     </div>
     <hr class="horizontal dark mt-0">
@@ -20,7 +27,16 @@
                     <span class="nav-link-text ms-1">Dashboard</span>
                 </a>
             </li>
-
+            <li class="nav-item">
+                <a class="nav-link {{ Route::currentRouteName() == 'reservation' ? 'active' : '' }}"
+                    href="{{ route('profile') }}">
+                    <div
+                        class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="ni ni-single-copy-04 text-success text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Reservation</span>
+                </a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link {{ Route::currentRouteName() == 'profile' ? 'active' : '' }}"
                     href="{{ route('profile') }}">
@@ -31,9 +47,10 @@
                     <span class="nav-link-text ms-1">Profile</span>
                 </a>
             </li>
+            @role('admin')
             <li class="nav-item">
-                <a class="nav-link {{ str_contains(request()->url(), 'user-managements') == true ? 'active' : '' }}"
-                    href="{{ url('user-managements') }}">
+                <a class="nav-link {{ Str::endsWith(request()->url(), 'user-managements') == true ? 'active' : '' }}"
+                    href="{{ route('user-managements.index') }}">
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-bullet-list-67 text-dark text-sm opacity-10"></i>
@@ -42,8 +59,8 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ str_contains(request()->url(), 'admins') == true ? 'active' : '' }}"
-                    href="{{ url('admins') }}">
+                <a class="nav-link {{ Str::endsWith(request()->url(), 'admins') == true ? 'active' : '' }}"
+                    href="{{ route('admins.index') }}">
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-single-02 text-success text-sm opacity-10"></i>
@@ -51,6 +68,7 @@
                     <span class="nav-link-text ms-1">Admin</span>
                 </a>
             </li>
+            @endrole
         </ul>
     </div>
 

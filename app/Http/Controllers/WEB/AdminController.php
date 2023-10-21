@@ -5,16 +5,18 @@ namespace App\Http\Controllers\WEB;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\WEB\CreateUserRequest;
 use App\Models\User;
+use App\Repositories\SubdistrictRepository;
 use Illuminate\Http\Request;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
-    private $userRepository;
-    function __construct(UserRepository $userRepository)
+    private $userRepository, $subdistrictRepository;
+    function __construct(UserRepository $userRepository, SubdistrictRepository $subdistrictRepository)
     {
         $this->userRepository = $userRepository;
+        $this->subdistrictRepository = $subdistrictRepository;
     }
 
     /**
@@ -25,7 +27,9 @@ class AdminController extends Controller
     public function index()
     {
         return view("pages.admins", [
-            "users" => $this->userRepository->getUserByRole('admin', auth()->id())
+            "users" => $this->userRepository->getUserByRole('admin', auth()->id()),
+            "subdistricts" => $this->subdistrictRepository->all()
+
         ]);
     }
 
@@ -48,14 +52,22 @@ class AdminController extends Controller
     public function store(CreateUserRequest $createUserRequest)
     {
         try {
-            $input = $createUserRequest->only("name", "email", "password", "phone");
+            $input = $createUserRequest->only("name", "email", "password", "phone", "subdistrict_id");
             $image = $createUserRequest->file("photo");
             $path = 'public/' . Storage::disk('public')->put('images/users', $image);
             $input['photo'] = $path;
             $this->userRepository->create($input)->assignRole('admin');
             return redirect()->route('admins')->with('success', 'Success create user');
         } catch (\Throwable $th) {
-            return redirect()->route('admins.index')->with('error', 'Failed!, Email allready exist!');
+            if ($th instanceof \Illuminate\Validation\ValidationException) {
+                $errors = $th->validator->errors();
+
+                if ($errors->has('email')) {
+                    return redirect()->route('admins.index')->with('error', 'Failed!, Email already exists!');
+                }
+            }
+
+            return redirect()->route('admins.index')->with('error', 'Failed!, Something went wrong!');
         }
     }
 

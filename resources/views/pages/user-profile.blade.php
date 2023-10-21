@@ -2,7 +2,7 @@
 
 @section('content')
     @include('layouts.navbars.auth.topnav', ['title' => 'Your Profile'])
-
+    
     @php
         $user = getDataUser();
     @endphp
@@ -71,8 +71,8 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="example-text-input" class="form-control-label">Username</label>
-                                            <input  class="form-control" type="text" name="username" value="{{ old('username', $user->username) }}">
+                                        <label for="example-text-input" class="form-control-label">Name</label>
+                                            <input  class="form-control" type="text" name="name" value="{{ old('name', $user->name) }}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -83,14 +83,8 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="example-text-input" class="form-control-label">First name</label>
-                                        <input class="form-control" type="text" name="firstname"  value="{{ old('firstname', $user->firstname) }}">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="example-text-input" class="form-control-label">Last name</label>
-                                        <input class="form-control" type="text" name="lastname" value="{{ old('lastname', $user->lastname) }}">
+                                        <label for="phone" class="form-control-label">Phone</label>
+                                        <input class="form-control" id="phone" type="text" name="lastname" value="{{ old('phone', $user->phone) }}">
                                     </div>
                                 </div>
                             </div>

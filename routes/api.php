@@ -42,5 +42,5 @@ Route::middleware([
     ], function () {
         Route::post('profile', [AuthController::class, 'update']);
     });
-    Route::resource('subdistrict', SubdistrictController::class)->only('index');
+    Route::resource('subdistricts', SubdistrictController::class)->only('index');
 });

@@ -18,3 +18,10 @@ if (!function_exists('getDataUser')) {
         return null;
     }
 }
+
+if (!function_exists('isDocter')) {
+    function isDocter()
+    {
+        return Auth::guard('docter')->check();
+    }
+}

@@ -34,11 +34,17 @@ class RegiesterRequest extends FormRequest
             'email' => 'min:5',
             'phone' => 'min:7|numeric',
             'password' => 'required|min:8',
+            'subdistrict_id' => 'required|exists:subdistricts,id',
             'password_confirmation' => 'required|same:password|min:8',
         ];
     }
     public function failedValidation(Validator $validator)
     {
+        $subdistrictIdErrorMessage = $validator->errors()->first('subdistrict_id');
+
+        if ($subdistrictIdErrorMessage === 'The selected subdistrict id is invalid.') {
+            throw new HttpResponseException($this->requestNotFound('Subdistrict not found!'));
+        }
         throw new HttpResponseException($this->requestValidation(formatErrorValidatioon($validator->errors()), 'Failed!'));
     }
 }

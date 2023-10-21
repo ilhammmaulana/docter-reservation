@@ -23,7 +23,7 @@
                                 </div>
                                 <div class="modal-body">
                                     <form enctype="multipart/form-data"
-                                        action="{{ route('admins.store') }}"method="POST">
+                                        action="{{ route('user-managements.store') }}"method="POST">
                                         @csrf
                                         <div class="form-group">
                                             <img id="imagePreview" src="#" alt="Image Preview"
@@ -57,7 +57,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <label for="photo" class="h6">Product photo</label>
+                                                <label for="photo" class="h6">Photo</label>
                                                 <div class="form-group">
                                                     <input type="file" id="imageInput"
                                                         onchange="previewImage(event)"class="form-control" name="photo">
@@ -68,6 +68,21 @@
                                                 <div class="form-group">
                                                     <input required type="phone" name="phone" class="form-control"
                                                         id="phone" placeholder="Phone">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="subdistrict_id" class="h6">Kecamatan</label>
+                                                    <select required name="subdistrict_id" class="form-control"
+                                                        id="subdistrict_id">
+                                                        <option value="Kecamatan" disabled selected>Pilih Kecamatan</option>
+                                                        @foreach ($subdistricts as $subdistrict)
+                                                            <option value="{{ $subdistrict->id }}">{{ $subdistrict->name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
@@ -93,7 +108,7 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form enctype="multipart/form-data" action="{{ route('admins.store') }}"
+                                    <form enctype="multipart/form-data" action="{{ route('user-managements.store') }}"
                                         id="editForm" method="POST">
                                         @method('PATCH')
                                         @csrf
@@ -169,6 +184,9 @@
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                         Phone
                                     </th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        Kecamatan
+                                    </th>
                                     <th
                                         class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Created at</th>
@@ -198,6 +216,11 @@
                                             <p class="text-sm font-weight-bold mb-0">
                                                 {{ $user->phone === null ? 'N/A' : $user->phone }}</p>
                                         </td>
+                                        <td>
+                                            <p class="text-sm font-weight-bold mb-0">
+                                                {{ $user->subdistrict->name === null ? 'N/A' : $user->subdistrict->name }}
+                                            </p>
+                                        </td>
                                         <td class="align-middle text-center text-sm">
                                             <p class="text-sm font-weight-bold mb-0">{{ $user->created_at }}</p>
                                         </td>
@@ -210,7 +233,7 @@
                                                 Edit
 
                                             </button>
-                                            <form action="{{ url('admins') . '/' . $user->id }}"
+                                            <form action="{{ url('user-managements') . '/' . $user->id }}"
                                                 method="POST">
                                                 @csrf
                                                 @method('DELETE')
@@ -346,7 +369,7 @@
                 const email = button.getAttribute('data-email');
                 const image = button.getAttribute('data-image');
 
-                const url = "{{ url('admins') }}" + '/' + id;
+                const url = "{{ url('user-managements') }}" + '/' + id;
                 editForm.setAttribute('action', url);
                 editNameInput.value = name;
                 editEmailInput.value = email;

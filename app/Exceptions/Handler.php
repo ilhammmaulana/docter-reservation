@@ -31,7 +31,10 @@ class Handler extends ExceptionHandler
      * @return void
      */
     public function register()
-    {
-        //
+    { {
+            $this->renderable(function (\Spatie\Permission\Exceptions\UnauthorizedException $e, $request) {
+                return redirect()->route('home');
+            });
+        }
     }
 }

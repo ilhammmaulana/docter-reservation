@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
-    @include('layouts.navbars.auth.topnav', ['title' => 'User Management'])
+    @include('layouts.navbars.auth.topnav', ['title' => 'Admins'])
     <div class="row mt-4 mx-4">
         <div class="col-12">
             <div class="card mb-4">
                 <div class="card-header pb-0">
-                    <h6>Users</h6>
+                    <h6>Admins</h6>
                     <button type="button" class="btn bg-gradient-primary mt-1 mb-4" data-bs-toggle="modal"
                         data-bs-target="#createUser">
-                        Create user
+                        Create admin
                     </button>
                     <div class="modal fade" id="createUser" tabindex="-1" role="dialog" aria-labelledby="createModelProduct"
                         aria-hidden="true">
@@ -71,6 +71,21 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="subdistrict_id" class="h6">Kecamatan</label>
+                                                    <select required name="subdistrict_id" class="form-control"
+                                                        id="subdistrict_id">
+                                                        <option value="Kecamatan" disabled selected>Pilih Kecamatan</option>
+                                                        @foreach ($subdistricts as $subdistrict)
+                                                            <option value="{{ $subdistrict->id }}">{{ $subdistrict->name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn bg-gradient-secondary"
@@ -129,7 +144,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <label for="photo" class="h6">Product photo</label>
+                                                <label for="photo" class="h6">Photo</label>
                                                 <div class="form-group">
                                                     <input type="file" id="imageInput"
                                                         onchange="previewImageForEdit(event)"class="form-control"
@@ -141,6 +156,21 @@
                                                 <div class="form-group">
                                                     <input required type="phone" name="phone" class="form-control"
                                                         id="update-phone" placeholder="Phone">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="subdistrict_id" class="h6">Kecamatan</label>
+                                                    <select required name="subdistrict_id" class="form-control"
+                                                        id="subdistrict_id">
+                                                        <option value="Kecamatan" disabled selected>Pilih Kecamatan</option>
+                                                        @foreach ($subdistricts as $subdistrict)
+                                                            <option value="{{ $subdistrict->id }}">{{ $subdistrict->name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
@@ -168,6 +198,9 @@
                                     </th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                         Phone
+                                    </th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        Kecamatan
                                     </th>
                                     <th
                                         class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -197,6 +230,12 @@
                                         <td>
                                             <p class="text-sm font-weight-bold mb-0">
                                                 {{ $user->phone === null ? 'N/A' : $user->phone }}</p>
+                                                
+                                        </td>
+                                        <td>
+                                            <p class="text-sm font-weight-bold mb-0">
+                                                {{ $user->subdistrict === null ? 'N/A' : $user->subdistrict->name }}</p>
+                                                
                                         </td>
                                         <td class="align-middle text-center text-sm">
                                             <p class="text-sm font-weight-bold mb-0">{{ $user->created_at }}</p>

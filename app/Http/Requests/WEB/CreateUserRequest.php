@@ -29,6 +29,7 @@ class CreateUserRequest extends FormRequest
             "password" => "required",
             "phone" => "required|min:5",
             "photo" => "required|mimes:jpeg,png,jpg",
+            "subdistrict_id" => 'required|exists:subdistricts,id'
         ];
     }
 }

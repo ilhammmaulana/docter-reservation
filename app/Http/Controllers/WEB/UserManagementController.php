@@ -5,16 +5,19 @@ namespace App\Http\Controllers\WEB;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\WEB\CreateUserRequest;
 use App\Models\User;
+use App\Repositories\SubdistrictRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class UserManagementController extends Controller
 {
-    private $userRepository;
-    function __construct(UserRepository $userRepository)
+    private $userRepository, $subdistrictRepository;
+
+    function __construct(UserRepository $userRepository, SubdistrictRepository $subdistrictRepository)
     {
         $this->userRepository = $userRepository;
+        $this->subdistrictRepository = $subdistrictRepository;
     }
 
     /**
@@ -25,7 +28,8 @@ class UserManagementController extends Controller
     public function index()
     {
         return view("pages.user-management", [
-            "users" => $this->userRepository->getUser('user', auth()->id())
+            "users" => $this->userRepository->getUser('user', auth()->id()),
+            "subdistricts" => $this->subdistrictRepository->all()
         ]);
     }
 
@@ -48,8 +52,8 @@ class UserManagementController extends Controller
     public function store(CreateUserRequest $createUserRequest)
     {
         try {
-            $input = $createUserRequest->only("name", "email", "password", "phone");
-            $image = $createUserRequest->file("photo");
+            $input = $createUserRequest->only("name", "email", "password", "phone", "subdistrict_id");
+            $image = $createUserRequest->file('photo');
             $path = 'public/' . Storage::disk('public')->put('images/users', $image);
             $input['photo'] = $path;
             $this->userRepository->create($input);
@@ -91,7 +95,8 @@ class UserManagementController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            $input = $request->only("name", "email", "phone");
+            $input = $request->only("name", "email", "phone", "subdistrict_id");
+
             $user = User::findOrFail($id);
 
             if ($request->has('password')) {

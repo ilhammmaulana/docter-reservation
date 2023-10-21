@@ -113,7 +113,7 @@ class AuthController extends ApiController
     }
     public function register(RegiesterRequest $regiesterRequest)
     {
-        $input = $regiesterRequest->only('name', 'email', 'phone', 'password', 'confirm_password');
+        $input = $regiesterRequest->only('name', 'email', 'phone', 'password', 'confirm_password', 'subdistrict_id');
         if (empty($input['email']) && empty($input['phone'])) {
             return $this->badRequest('error_validation'); //penting jangan dirubah
         }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\AssignRoleUser;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -13,7 +14,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use HasFactory, Notifiable, SoftDeletes, HasRoles, useUUID;
+    use HasFactory, Notifiable, SoftDeletes, HasRoles, AssignRoleUser;
     protected $table = 'users';
     protected $fillable = ['name', 'email', 'phone', 'password', 'photo', 'subdistrict_id'];
     protected $primaryKey = 'id';
