@@ -33,6 +33,10 @@ class UserRepository
 
         return $usersWithUserRole;
     }
+    public function getUserById($user_id)
+    {
+        return User::find($user_id);
+    }
     public function getUserByRole($roleName, $user_id, $guard = 'web')
     {
         $role = Role::where('name', $roleName)->where('guard_name', $guard)->first();

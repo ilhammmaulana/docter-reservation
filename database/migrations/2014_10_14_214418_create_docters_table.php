@@ -18,6 +18,7 @@ class CreateDoctersTable extends Migration
             $table->string('name');
             $table->string('email')->nullable()->unique();
             $table->string('address');
+            $table->foreignUuid('subdistrict_id')->constrained('subdistricts', 'id');
             $table->string('description')->nullable(true);
             $table->string('phone')->nullable()->unique();
             $table->string('photo')->default(null)->nullable();

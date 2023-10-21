@@ -14,7 +14,7 @@ class Docter extends Authenticatable
     use HasFactory, HasRoles, Notifiable, SoftDeletes, DocterConfiguration;
     protected $guard_name = 'docter';
     protected $table = 'docters';
-    protected $fillable = ['name', 'email', 'password', 'photo'];
+    protected $fillable = ['name', 'email', 'password', 'photo', 'subdistrict_id'];
     protected $primaryKey = 'id';
     public $incrementing = false;
     protected $keyType = 'string';
@@ -33,5 +33,10 @@ class Docter extends Authenticatable
     public function images()
     {
         return $this->hasMany(DocterImage::class, 'docter_id');
+    }
+
+    public function subdistrict()
+    {
+        return $this->belongsTo(Subdistrict::class, 'subdistrict_id');
     }
 }

@@ -3,14 +3,37 @@
 namespace App\Http\Controllers\WEB;
 
 use App\Http\Controllers\Controller;
+use App\Repositories\DocterRepository;
+use App\Repositories\SubdistrictRepository;
+use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
 class UserProfileController extends Controller
 {
+    private $subdistrictRepository, $userRepository, $docterRepository;
+    /**
+     * Class constructor.
+     */
+    public function __construct(SubdistrictRepository $subdistrictRepository, UserRepository $userRepository, DocterRepository $docterRepository)
+    {
+        $this->subdistrictRepository = $subdistrictRepository;
+        $this->userRepository = $userRepository;
+        $this->docterRepository = $docterRepository;
+    }
+
     public function show()
     {
-        return view('pages.user-profile');
+        $sessionUser = getDataUser();
+        if (!isDocter()) {
+            $user = $this->userRepository->getUserById($sessionUser->id);
+        } else {
+            $user = $this->docterRepository->getDocterById($sessionUser->id);
+        }
+        return view('pages.user-profile', [
+            "user" => $user,
+            "subdistricts" => $this->subdistrictRepository->all()
+        ]);
     }
     public function update(Request $request)
     {
