@@ -37,9 +37,9 @@ Route::middleware(["guest"])->group(function () {
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/dashboard', [HomeController::class, 'index'])->name('home');
+    Route::resource('admins', AdminController::class)->only('index', 'store', 'update', 'destroy')->names('admins')->middleware('role:admin');
     Route::middleware(['role:admin'])->prefix('admins')->group(function () {
         Route::resource('user-managements', UserManagementController::class)->names('user-managements');
-        Route::resource('/', AdminController::class)->names('admins');
         Route::resource('docters', DocterController::class)->names('docters');
     });
     Route::get('/virtual-reality', [PageController::class, 'vr'])->name('virtual-reality');

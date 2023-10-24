@@ -39,21 +39,14 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-6">
+                                            <div class="col-md-12">
                                                 <label for="description" class="h6">Email</label>
                                                 <div class="form-group">
                                                     <input required type="email" name="email" class="form-control"
                                                         id="email" placeholder="Email">
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
-                                                <label for="password" class="h6">Password</label>
-                                                <div class="form-group">
-                                                    <input required placeholder="Password" name="password"
-                                                        class="form-control" id="password" />
-                                                    <span id="passwordError" class="text-danger"></span>
-                                                </div>
-                                            </div>
+                                       
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6">
@@ -108,7 +101,7 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form enctype="multipart/form-data" action="{{ route('admins.store') }}"
+                                    <form enctype="multipart/form-data"
                                         id="editForm" method="POST">
                                         @method('PATCH')
                                         @csrf
@@ -126,19 +119,11 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-6">
+                                            <div class="col-md-12">
                                                 <label for="description" class="h6">Email</label>
                                                 <div class="form-group">
                                                     <input required type="email" name="email" class="form-control"
                                                         id="update-email" placeholder="Email">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <label for="password" class="h6">Password</label>
-                                                <div class="form-group">
-                                                    <input  placeholder="Password" name="password"
-                                                        class="form-control" id="password" />
-                                                    <span id="passwordError" class="text-danger"></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -163,12 +148,9 @@
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label for="subdistrict_id" class="h6">Kecamatan</label>
-                                                    <select required name="subdistrict_id" class="form-control"
-                                                        id="subdistrict_id">
-                                                        <option value="Kecamatan" disabled selected>Pilih Kecamatan</option>
+                                                    <select id="update_subdistricts" required name="subdistrict_id" class="form-control">
                                                         @foreach ($subdistricts as $subdistrict)
-                                                            <option value="{{ $subdistrict->id }}">{{ $subdistrict->name }}
-                                                            </option>
+                                                            <option value='{{ $subdistrict->id }}'>{{ $subdistrict->name }}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -178,7 +160,7 @@
                                 <div class="modal-footer">
                                     <button type="button" class="btn bg-gradient-secondary"
                                         data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn bg-gradient-primary">Create</button>
+                                    <button type="submit" class="btn bg-gradient-primary">Update</button>
                                     </form>
 
                                 </div>
@@ -243,6 +225,7 @@
                                         <td class="align-middle text-end d-flex gap-2">
                                             <button type="button" class="btn btn-primary edit-button"
                                                 data-bs-toggle="modal" data-bs-target="#editUser"
+                                                data-subdistrict_id="{{ $user->subdistrict_id }}"
                                                 data-id="{{ $user->id }}" data-name="{{ $user->name }}"
                                                 data-email="{{ $user->email }}" data-phone="{{ $user->phone }}"
                                                 data-image="{{ $user->photo === null ? null : url($user->photo) }}">
@@ -375,24 +358,38 @@
         const editNameInput = document.getElementById('update-name');
         const editEmailInput = document.getElementById('update-email');
         const editPhoneInput = document.getElementById('update-phone');
+        const editSubdistricts = document.getElementById('update_subdistricts');
+        function setSelectedOption(dropdown, value) {
+            const options = dropdown.options;
+            console.log(value)
+            for (let i = 0; i < options.length; i++) {
+                console.log(options[i].value == value)
+                if (options[i].value == value) {
+                    options[i].selected = true;
+                    break;
+                }
+            }
+        }
+
 
         editButtons.forEach(button => {
             button.addEventListener('click', () => {
                 const id = button.getAttribute('data-id');
-                console.log(id)
+                const subdistrict_id = button.getAttribute('data-subdistrict_id');
                 const name = button.getAttribute('data-name');
                 const phone = button.getAttribute('data-phone');
                 const email = button.getAttribute('data-email');
                 const image = button.getAttribute('data-image');
 
                 const url = "{{ url('admins') }}" + '/' + id;
+                console.log(url);
                 editForm.setAttribute('action', url);
                 editNameInput.value = name;
                 editEmailInput.value = email;
                 editPhoneInput.value = phone;
                 editImagePreview.src = image;
                 editImagePreview.style.display = 'block';
-
+                setSelectedOption(editSubdistricts, subdistrict_id)
 
             });
 

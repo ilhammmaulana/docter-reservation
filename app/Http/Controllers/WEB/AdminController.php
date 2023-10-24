@@ -52,7 +52,7 @@ class AdminController extends Controller
     public function store(CreateUserRequest $createUserRequest)
     {
         try {
-            $input = $createUserRequest->only("name", "email", "password", "phone", "subdistrict_id");
+            $input = $createUserRequest->only("name", "email", "phone", "subdistrict_id");
             $image = $createUserRequest->file("photo");
             $path = 'public/' . Storage::disk('public')->put('images/users', $image);
             $input['photo'] = $path;
@@ -103,7 +103,7 @@ class AdminController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            $input = $request->only("name", "email", "phone");
+            $input = $request->only("name", "email", "phone", "subdistrict_id");
             $user = User::findOrFail($id);
 
             if ($request->has('password')) {
@@ -120,6 +120,7 @@ class AdminController extends Controller
             $user->name = $input['name'];
             $user->email = $input['email'];
             $user->phone = $input['phone'];
+            $user->subdistrict_id = $input['subdistrict_id'];
             $user->save();
             return redirect()->route('admins')->with('success', 'User update successfully');
         } catch (\Throwable $th) {
@@ -135,6 +136,15 @@ class AdminController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $user = User::findOrFail($id);
+            if ($user->photo) {
+                Storage::delete($user->photo);
+            }
+            $user->delete();
+            return redirect()->route('user-managements.index')->with('success', 'User deleted successfully');
+        } catch (\Throwable $th) {
+            return redirect()->route('user-managements.index')->with('error', 'Failed to delete the user.');
+        }
     }
 }

@@ -146,7 +146,9 @@
                                             <div class="col-md-6">
                                                 <label for="photo" class="h6">Product photo</label>
                                                 <div class="form-group">
-                                                    <input type="file" id="imageInput"
+                                                    <input 
+                                                        type="file" 
+                                                        id="imageInput"
                                                         onchange="previewImageForEdit(event)"class="form-control"
                                                         name="photo">
                                                 </div>
@@ -245,7 +247,6 @@
                                                 data-email="{{ $user->email }}" data-phone="{{ $user->phone }}"
                                                 data-image="{{ $user->photo === null ? null : url($user->photo) }}">
                                                 Edit
-
                                             </button>
                                             <form action="{{ route('user-managements.destroy', $user->id) }}"
                                                 method="POST">
