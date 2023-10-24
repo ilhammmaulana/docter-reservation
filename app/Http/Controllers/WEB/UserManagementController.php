@@ -4,10 +4,10 @@ namespace App\Http\Controllers\WEB;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\WEB\CreateUserRequest;
+use App\Http\Requests\WEB\UserUpdateRequest;
 use App\Models\User;
 use App\Repositories\SubdistrictRepository;
 use App\Repositories\UserRepository;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class UserManagementController extends Controller
@@ -92,29 +92,33 @@ class UserManagementController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserUpdateRequest $userUpdateRequest, $id)
     {
         try {
-            $input = $request->only("name", "email", "phone", "subdistrict_id");
+            $input = $userUpdateRequest->only("name", "email", "phone", "subdistrict_id");
 
             $user = User::findOrFail($id);
 
-            if ($request->has('password')) {
-                $user['password'] = bcrypt($request->input('password'));
+            if ($userUpdateRequest->has('password')) {
+                $user->password = bcrypt($userUpdateRequest->input('password'));
             }
-            if ($request->hasFile('photo')) {
+
+            if ($userUpdateRequest->hasFile('photo')) {
                 if ($user->photo) {
                     Storage::delete($user->photo);
                 }
 
-                $imagePath = $request->file('photo')->store('images/users', 'public');
-                $user['photo'] = 'public/' . $imagePath;
+                $imagePath = $userUpdateRequest->file('photo')->store('images/users', 'public');
+                $user->photo = 'public/' . $imagePath;
             }
+
             $user->name = $input['name'];
             $user->email = $input['email'];
+            $user->subdistrict_id = $input['subdistrict_id'];
             $user->phone = $input['phone'];
             $user->save();
-            return redirect()->route('user-managements')->with('success', 'User update successfully');
+
+            return redirect()->route('user-managements.index')->with('success', 'User updated successfully');
         } catch (\Throwable $th) {
             return redirect()->route('user-managements.index')->with('error', 'Failed! Email already exists.');
         }
@@ -128,6 +132,15 @@ class UserManagementController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $user = User::findOrFail($id);
+            if ($user->photo) {
+                Storage::delete($user->photo);
+            }
+            $user->delete();
+            return redirect()->route('user-managements.index')->with('success', 'User deleted successfully');
+        } catch (\Throwable $th) {
+            return redirect()->route('user-managements.index')->with('error', 'Failed to delete the user.');
+        }
     }
 }

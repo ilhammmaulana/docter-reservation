@@ -159,6 +159,18 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="subdistrict_id" class="h6">Kecamatan</label>
+                                                    <select id="update_subdistricts" required name="subdistrict_id" class="form-control">
+                                                        @foreach ($subdistricts as $subdistrict)
+                                                            <option value='{{ $subdistrict->id }}'>{{ $subdistrict->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn bg-gradient-secondary"
@@ -227,13 +239,15 @@
                                         <td class="align-middle text-end d-flex gap-2">
                                             <button type="button" class="btn btn-primary edit-button"
                                                 data-bs-toggle="modal" data-bs-target="#editUser"
-                                                data-id="{{ $user->id }}" data-name="{{ $user->name }}"
+                                                data-id="{{ $user->id }}" 
+                                                data-subdistrict_id="{{ $user->subdistrict_id }}"
+                                                data-name="{{ $user->name }}"
                                                 data-email="{{ $user->email }}" data-phone="{{ $user->phone }}"
                                                 data-image="{{ $user->photo === null ? null : url($user->photo) }}">
                                                 Edit
 
                                             </button>
-                                            <form action="{{ url('user-managements') . '/' . $user->id }}"
+                                            <form action="{{ route('user-managements.destroy', $user->id) }}"
                                                 method="POST">
                                                 @csrf
                                                 @method('DELETE')
@@ -359,27 +373,43 @@
         const editNameInput = document.getElementById('update-name');
         const editEmailInput = document.getElementById('update-email');
         const editPhoneInput = document.getElementById('update-phone');
+        const editSubdistricts = document.getElementById('update_subdistricts');
 
-        editButtons.forEach(button => {
+        function setSelectedOption(dropdown, value) {
+            const options = dropdown.options;
+            console.log(value)
+            for (let i = 0; i < options.length; i++) {
+                console.log(options[i].value == value)
+                if (options[i].value == value) {
+                    options[i].selected = true;
+                    break;
+                }
+            }
+        }
+
+        editButtons.forEach(button => { 
             button.addEventListener('click', () => {
                 const id = button.getAttribute('data-id');
-                console.log(id)
                 const name = button.getAttribute('data-name');
                 const phone = button.getAttribute('data-phone');
                 const email = button.getAttribute('data-email');
+                const subdistrict_id = button.getAttribute('data-subdistrict_id');
+                console.log(subdistrict_id)
                 const image = button.getAttribute('data-image');
 
-                const url = "{{ url('user-managements') }}" + '/' + id;
+                const url = "{{ url('admins/user-managements') }}" + '/' + id;
                 editForm.setAttribute('action', url);
                 editNameInput.value = name;
                 editEmailInput.value = email;
                 editPhoneInput.value = phone;
                 editImagePreview.src = image;
                 editImagePreview.style.display = 'block';
-
+                setSelectedOption(editSubdistricts, subdistrict_id)
 
             });
 
         });
+
+       
     </script>
 @endsection

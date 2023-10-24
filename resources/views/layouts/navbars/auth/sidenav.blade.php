@@ -27,6 +27,7 @@
                     <span class="nav-link-text ms-1">Dashboard</span>
                 </a>
             </li>
+            @docter
             <li class="nav-item">
                 <a class="nav-link {{ Route::currentRouteName() == 'reservation' ? 'active' : '' }}"
                     href="{{ route('profile') }}">
@@ -37,6 +38,7 @@
                     <span class="nav-link-text ms-1">Reservation</span>
                 </a>
             </li>
+            @endDocter
             <li class="nav-item">
                 <a class="nav-link {{ Route::currentRouteName() == 'profile' ? 'active' : '' }}"
                     href="{{ route('profile') }}">
