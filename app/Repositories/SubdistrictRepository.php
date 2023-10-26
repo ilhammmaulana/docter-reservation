@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\Subdistrict;
-
 namespace App\Repositories;
 
 use App\Models\Subdistrict;

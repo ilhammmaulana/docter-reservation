@@ -3,10 +3,21 @@
 namespace App\Http\Controllers\WEB\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Repositories\SubdistrictRepository;
+use App\Repositories\DocterRepository;
 use Illuminate\Http\Request;
 
 class DocterController extends Controller
 {
+    private $docterRepository, $subdistrictRepository;
+
+    function __construct(DocterRepository $docterRepository, SubdistrictRepository $subdistrictRepository)
+    {
+        $this->docterRepository = $docterRepository;
+        $this->subdistrictRepository = $subdistrictRepository;
+    }
+
+    
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +25,10 @@ class DocterController extends Controller
      */
     public function index()
     {
-        //
+        return view("pages.docters", [
+            "subdistricts" => $this->subdistrictRepository->all(),
+            "docters" => $this->docterRepository->all(true, 10)
+        ]); 
     }
 
     /**

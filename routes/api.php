@@ -45,5 +45,5 @@ Route::middleware([
         Route::post('profile', [AuthController::class, 'update']);
     });
     Route::resource('subdistricts', SubdistrictController::class)->only('index');
-    Route::resource('docters', DocterController::class)->only('index');
+    Route::resource('docters', DocterController::class)->only('index')->names('api-docters');
 });

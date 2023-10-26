@@ -6,9 +6,14 @@ use App\Models\Docter;
 
 class DocterRepository
 {
-    public function all()
+    public function all($paginate = false, $totalData = 10)
     {
-        $docters = Docter::with(['images', 'category', 'subdistrict'])->get();
+        if($paginate){
+            $docters = Docter::with(['images', 'category', 'subdistrict'])->paginate($totalData);
+        }else{
+            $docters = Docter::with(['images', 'category', 'subdistrict'])->get();
+
+        }
         return $docters;
     }
     public function getDocterById($id)
