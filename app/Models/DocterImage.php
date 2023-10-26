@@ -8,7 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class DocterImage extends Model
 {
     use HasFactory;
-
+    protected $primaryKey = 'id';
+    public $incrementing = false;
+    protected $keyType = 'string';
+    protected $fillable = ['image', 'docter_id'];
 
     public function docter()
     {

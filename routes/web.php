@@ -7,6 +7,7 @@ use App\Http\Controllers\WEB\PageController;
 use App\Http\Controllers\WEB\HomeController;
 use App\Http\Controllers\WEB\Docter\LoginController as DocterLoginController;
 use App\Http\Controllers\WEB\Admin\LoginController as AdminLoginController;
+use App\Http\Controllers\WEB\DocterImageController;
 use App\Http\Controllers\WEB\UserProfileController;
 use App\Http\Controllers\WEB\UserManagementController;
 
@@ -42,6 +43,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('user-managements', UserManagementController::class)->names('user-managements');
         Route::resource('docters', DocterController::class)->names('docters');
     });
+    Route::resource('docter-images', DocterImageController::class)->names('docter-images');
+    // Route::prefix('docter-images')->group(function () {
+    //     Route::post('/', [DocterImageController::class, 'store']);
+    // });
     Route::get('/virtual-reality', [PageController::class, 'vr'])->name('virtual-reality');
     Route::get('/rtl', [PageController::class, 'rtl'])->name('rtl');
     Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');

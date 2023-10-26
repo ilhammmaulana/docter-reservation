@@ -3,9 +3,15 @@
 namespace App\Http\Controllers\WEB\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\API\UpdateCartRequest;
+use App\Http\Requests\WEB\CreateDocterRequest;
+use App\Http\Requests\WEB\UpdateDocterRequest;
+use App\Models\CategoryDocter;
+use App\Models\Docter;
 use App\Repositories\SubdistrictRepository;
 use App\Repositories\DocterRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class DocterController extends Controller
 {
@@ -17,7 +23,7 @@ class DocterController extends Controller
         $this->subdistrictRepository = $subdistrictRepository;
     }
 
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -27,8 +33,9 @@ class DocterController extends Controller
     {
         return view("pages.docters", [
             "subdistricts" => $this->subdistrictRepository->all(),
-            "docters" => $this->docterRepository->all(true, 10)
-        ]); 
+            "docters" => $this->docterRepository->all(true, 10),
+            "categories" => CategoryDocter::all()
+        ]);
     }
 
     /**
@@ -47,9 +54,19 @@ class DocterController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateDocterRequest $createDocterRequest)
     {
-        //
+        try {
+            $input = $createDocterRequest->only('name', 'email', 'phone', 'password', 'subdistrict_id', 'category_docter_id', 'address', 'description');
+            $photo = $createDocterRequest->file('photo');
+            $path = Storage::disk('public')->put('images/users', $photo);
+            $input['password'] = bcrypt($input['password']);
+            $input['photo'] = 'public/' . $path;
+            Docter::create($input);
+            return redirect()->route('docters.index')->with('success', 'Success create docter!');
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
     /**
@@ -71,7 +88,11 @@ class DocterController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('pages.docters-edit', [
+            "docter" => $this->docterRepository->getDocterById($id),
+            "categories" => CategoryDocter::all(),
+            "subdistricts" => $this->subdistrictRepository->all()
+        ]);
     }
 
     /**
@@ -81,9 +102,24 @@ class DocterController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateDocterRequest $updateDocterRequest, $id)
     {
-        //
+        $photo = $updateDocterRequest->file('photo');
+        $user = $this->docterRepository->getDocterById($id);
+        $input = $updateDocterRequest->only('name', 'email', 'phone', 'subdistrict_id', 'description', 'category_docter_id', 'address');
+        if ($updateDocterRequest->has('password')) {
+            $input['password'] = bcrypt($updateDocterRequest->input('password'));
+        }
+        if ($photo) {
+            $pathDelete = $user->photo;
+            if ($pathDelete !== null) {
+                Storage::delete($pathDelete);
+            }
+            $path = Storage::disk('public')->put('images/users', $photo);
+            $user->photo = 'public/' . $path;
+        }
+        $user->update($input);
+        return back()->with('success', 'Profile successfully updated');
     }
 
     /**

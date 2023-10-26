@@ -4,7 +4,7 @@ namespace App\Http\Requests\WEB;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateProfileRequest extends FormRequest
+class UpdateDocterRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,10 +26,11 @@ class UpdateProfileRequest extends FormRequest
         return [
             "name" => "required",
             "email" => "required",
-            "phone" => "required",
             "password" => "nullable|min:8",
+            "phone" => "required",
             "photo" => "image|max:2048|mimes:png,jpg",
             "address" => "max:255",
+            "category_docter_id" => "exists:category_docters,id",
             "description" => "max:255",
             "subdistrict_id" => "required|exists:subdistricts,id"
         ];

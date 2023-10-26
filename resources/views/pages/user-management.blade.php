@@ -395,7 +395,6 @@
                 const phone = button.getAttribute('data-phone');
                 const email = button.getAttribute('data-email');
                 const subdistrict_id = button.getAttribute('data-subdistrict_id');
-                console.log(subdistrict_id)
                 const image = button.getAttribute('data-image');
 
                 const url = "{{ url('admins/user-managements') }}" + '/' + id;

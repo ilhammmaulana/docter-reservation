@@ -15,14 +15,14 @@
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="createModelProduct">Craete User</h5>
+                                    <h5 class="modal-title" id="createModelProduct">Craete Docter</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
                                 <div class="modal-body">
                                     <form enctype="multipart/form-data"
-                                        action="{{ route('user-managements.store') }}"method="POST">
+                                        action="{{ route('docters.store') }}"method="POST">
                                         @csrf
                                         <div class="form-group">
                                             <img id="imagePreview" src="#" alt="Image Preview"
@@ -85,6 +85,35 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="subdistrict_id" class="h6">Kategori Docter</label>
+                                                    <select required name="category_docter_id" class="form-control"
+                                                        id="category_docter_id">
+                                                        <option value="category" disabled selected>Pilih Kategori</option>
+                                                        @foreach ($categories as $category)
+                                                            <option value="{{ $category->id }}">{{ $category->name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label for="description" class="h6">Description</label>
+                                                <div class="form-group">
+                                                    <textarea name="description" id="description" class="form-control" cols="20" rows="5"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <label for="address" class="h6">Address</label>
+                                                <div class="form-group">
+                                                    <textarea name="address" id="address" class="form-control" cols="20" rows="5"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn bg-gradient-secondary"
@@ -107,7 +136,7 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form enctype="multipart/form-data" action="{{ route('user-managements.store') }}"
+                                    <form enctype="multipart/form-data" action="{{ route('docters.store') }}"
                                         id="editForm" method="POST">
                                         @method('PATCH')
                                         @csrf
@@ -133,10 +162,10 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <label for="password" class="h6">Password</label>
+                                                <label for="update-password" class="h6">Password</label>
                                                 <div class="form-group">
                                                     <input  placeholder="Password" name="password"
-                                                        class="form-control" id="password" />
+                                                        class="form-control" id="update-password" />
                                                     <span id="passwordError" class="text-danger"></span>
                                                 </div>
                                             </div>
@@ -200,6 +229,12 @@
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                         Kecamatan
                                     </th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        Address
+                                    </th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        Category Docter
+                                    </th>
                                     <th
                                         class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Created at</th>
@@ -228,26 +263,31 @@
                                         <td>
                                             <p class="text-sm font-weight-bold mb-0">
                                                 {{ $user->phone === null ? 'N/A' : $user->phone }}</p>
-                                        </td>
+                                        </td> 
                                         <td>
                                             <p class="text-sm font-weight-bold mb-0">
                                                 {{ $user->subdistrict->name === null ? 'N/A' : $user->subdistrict->name }}
                                             </p>
                                         </td>
+                                        
+                                        <td>
+                                            <p class="text-sm font-weight-bold mb-0">
+                                                {{ $user->address === null ? 'N/A' : $user->address }}</p>
+                                        </td>
+                                        <td>
+                                            <p class="text-sm font-weight-bold mb-0">
+                                                {{ $user->category->name === null ? 'N/A' : $user->category->name }}</p>
+                                        </td>
                                         <td class="align-middle text-center text-sm">
                                             <p class="text-sm font-weight-bold mb-0">{{ $user->created_at }}</p>
                                         </td>
                                         <td class="align-middle text-end d-flex gap-2">
-                                            <button type="button" class="btn btn-primary edit-button"
-                                                data-bs-toggle="modal" data-bs-target="#editUser"
-                                                data-id="{{ $user->id }}" 
-                                                data-subdistrict_id="{{ $user->subdistrict_id }}"
-                                                data-name="{{ $user->name }}"
-                                                data-email="{{ $user->email }}" data-phone="{{ $user->phone }}"
-                                                data-image="{{ $user->photo === null ? null : url($user->photo) }}">
+                                            <a href="{{ route('docters.edit', $user->id) }}">
+                                            <button type="button" class="btn btn-primary edit-button">
                                                 Edit
                                             </button>
-                                            <form action="{{ route('user-managements.destroy', $user->id) }}"
+                                        </a>
+                                            <form action="{{ route('docters.destroy', $user->id) }}"
                                                 method="POST">
                                                 @csrf
                                                 @method('DELETE')
@@ -410,6 +450,17 @@
 
         });
 
-       
+        const randomPassword = (length) => {
+                var result = '';
+                var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+                var charactersLength = characters.length;
+                for (var i = 0; i < length; i++) {
+                    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+                }
+
+                return result;
+            }
+            const passwordField  = document.getElementById('password');
+            passwordField.value = randomPassword(9)
     </script>
 @endsection

@@ -39,30 +39,37 @@ class UserProfileController extends Controller
     }
     public function update(UpdateProfileRequest $updateProfileRequest)
     {
-        $photo = $updateProfileRequest->file('photo');
+        try {
+            $photo = $updateProfileRequest->file('photo');
 
-        $sessionUser = getDataUser();
+            $sessionUser = getDataUser();
 
-        if (!isDocter()) {
-            $user = $this->userRepository->getUserById($sessionUser->id);
-        } else {
-            $user = $this->docterRepository->getDocterById($sessionUser->id);
-        }
-        $input = $updateProfileRequest->only('name', 'email', 'phone', 'subdistrict_id');
-        if (isDocter()) {
-            $input['description'] = $updateProfileRequest->input('description');
-            $input['address'] = $updateProfileRequest->input('address');
-        }
-        if ($photo) {
-            $pathDelete = $user->photo;
-            if ($pathDelete !== null) {
-                Storage::delete($pathDelete);
+            if (!isDocter()) {
+                $user = $this->userRepository->getUserById($sessionUser->id);
+            } else {
+                $user = $this->docterRepository->getDocterById($sessionUser->id);
             }
-            $path = Storage::disk('public')->put('images/users', $photo);
-            $user->photo = 'public/' . $path;
-        }
+            $input = $updateProfileRequest->only('name', 'email', 'phone', 'subdistrict_id');
+            if (isDocter()) {
+                $input['description'] = $updateProfileRequest->input('description');
+                $input['address'] = $updateProfileRequest->input('address');
+            }
+            if ($updateProfileRequest->has('password')) {
+                $input['password'] = bcrypt($updateProfileRequest->input('password'));
+            }
+            if ($photo) {
+                $pathDelete = $user->photo;
+                if ($pathDelete !== null) {
+                    Storage::delete($pathDelete);
+                }
+                $path = Storage::disk('public')->put('images/users', $photo);
+                $input['photo'] = 'public/' . $path;
+            }
 
-        $user->update($input);
-        return back()->with('success', 'Profile successfully updated');
+            $user->update($input);
+            return back()->with('success', 'Profile successfully updated');
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 }
