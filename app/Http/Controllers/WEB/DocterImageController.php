@@ -8,6 +8,7 @@ use App\Models\Docter;
 use App\Models\DocterImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class DocterImageController extends Controller
 {
@@ -41,17 +42,16 @@ class DocterImageController extends Controller
         try {
             $uploadedImages = [];
             DB::transaction(function () use ($createImageDocterRequest, $uploadedImages) {
-
                 foreach ($createImageDocterRequest->file('images') as $imagefile) {
                     $input = [];
-                    $path = $imagefile->store('images/users', 'public');
+                    $path = $imagefile->store('images/docters', 'public');
                     $input['image'] = 'public/' . $path;
                     $input['docter_id'] = $createImageDocterRequest->get('docter_id');
                     $docterImage = DocterImage::create($input);
                     $uploadedImages[] = $docterImage;
                 }
-                return redirect()->back()->with('success', 'Success upload photo!');
             });
+            return redirect()->back()->with('success', 'Success upload photo!');
         } catch (\Throwable $th) {
             foreach ($uploadedImages as $image) {
                 $image->delete();
@@ -104,6 +104,9 @@ class DocterImageController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $image = DocterImage::find($id);
+        Storage::delete($image['image']);
+        $image->delete();
+        return redirect()->back()->with('success', "Success delete image!");
     }
 }

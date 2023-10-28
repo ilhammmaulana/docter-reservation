@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\useUUID;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class DocterImage extends Model
 {
-    use HasFactory;
+    use HasFactory, useUUID;
     protected $primaryKey = 'id';
     public $incrementing = false;
     protected $keyType = 'string';
