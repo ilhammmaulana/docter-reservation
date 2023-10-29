@@ -14,8 +14,6 @@ class DocterImageResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            $this->image,
-        ];
+        return url($this->image);
     }
 }

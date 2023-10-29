@@ -154,7 +154,7 @@
                 </div>
                 <div class="card px-4 py-2 mt-5">
                     <h5 class="my-2 mb-4">Images docter</h5>
-                    <table class="table">
+                    <table class="tablex">
                         <thead>
                             <tr>
                                 <th>Image</th>
