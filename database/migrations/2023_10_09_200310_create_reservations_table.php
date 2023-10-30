@@ -20,7 +20,7 @@
                 $table->string('status')->nullable();
                 $table->foreignUuid('docter_id')->constrained('docters', 'id');
                 $table->foreignUuid('created_by')->constrained('users', 'id');
-                $table->integer('number_antrian');
+                $table->integer('queue_number');
                 $table->text('remark_cancel')->nullable();
                 $table->timestamps();
             });

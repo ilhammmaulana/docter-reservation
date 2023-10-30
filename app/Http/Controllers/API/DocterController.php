@@ -23,8 +23,11 @@ class DocterController extends ApiController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        if ($q = $request->query('q')) {
+            return  $this->requestSuccessData($this->docterRepository->searchDocter($q));
+        }
         return $this->requestSuccessData(DocterResource::collection($this->docterRepository->all()));
     }
 

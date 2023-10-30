@@ -6,6 +6,11 @@ use App\Models\Docter;
 
 class DocterRepository
 {
+    public static function searchDocter($q)
+    {
+        $docters = Docter::with(['images', 'category', 'subdistrict'])->where('name', 'like', "%" . $q . "%")->get();
+        return $docters;
+    }
     public function all($paginate = false, $totalData = 10)
     {
         if ($paginate) {
