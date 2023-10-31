@@ -17,4 +17,10 @@ class ReservationRepository{
             throw $th;
         }
     }
+    public static function getReservationTodayForDocter($docterId){
+        $today = now()->startOfDay();
+        $reservations = Reservation::with(['docter.category', 'docter.images', 'docter.subdistrict'])->whereDate('created_at', $today)->where('docter_id', $docterId)->get();
+        return $reservations;
+
+    }
 }

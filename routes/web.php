@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\WEB\ReservationController;
 use App\Http\Controllers\WEB\Admin\DocterController;
 use App\Http\Controllers\WEB\AdminController;
 use Illuminate\Support\Facades\Route;
@@ -42,6 +43,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::middleware(['role:admin'])->prefix('admins')->group(function () {
         Route::resource('user-managements', UserManagementController::class)->names('user-managements');
         Route::resource('docters', DocterController::class)->names('docters');
+    });
+    Route::middleware(['docter'])->prefix('docters')->group(function () {
+        Route::resource('reservations', ReservationController::class)->names('reservations');
     });
     Route::resource('docter-images', DocterImageController::class)->names('docter-images');
     // Route::prefix('docter-images')->group(function () {

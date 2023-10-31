@@ -46,7 +46,7 @@ Route::middleware([
     ], function () {
         Route::post('profile', [AuthController::class, 'update']);
     });
-    Route::resource('reservations', ReservationController::class)->only('index','store', 'show');
+    Route::resource('reservations', ReservationController::class)->only('index','store', 'show')->names('api-reservations');
     Route::resource('subdistricts', SubdistrictController::class)->only('index');
     Route::prefix('docters')->group(function() {
         Route::resource('categories', DocterCategoryController::class)->only('index', 'show');

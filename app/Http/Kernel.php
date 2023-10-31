@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\DocterMiddleware;
 use App\Http\Middleware\VerifyJwt;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -65,6 +66,7 @@ class Kernel extends HttpKernel
         'auth' => \App\Http\Middleware\CheckDocterOrAdmin::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'auth.api' => \App\Http\Middleware\VerifyJwt::class,
+        'docter' =>  \App\Http\Middleware\DocterMiddleware::class,
         'auth.refresh' => \App\Http\Middleware\VerifyRefreshToken::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
