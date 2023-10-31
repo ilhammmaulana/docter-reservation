@@ -38,10 +38,10 @@ class CreateReservationRequest extends FormRequest
         $errors = $validator->errors();
 
         if ($errors->has('docter_id')) {
-            $productIdErrors = $errors->get('docter_id');
+            $docterError = $errors->get('docter_id');
 
-            if (in_array('The selected product id is invalid.', $productIdErrors)) {
-                throw new HttpResponseException($this->requestNotFound('Product not found!'));
+            if (in_array('The selected docter id is invalid.', $docterError)) {
+                throw new HttpResponseException($this->requestNotFound('Docter not found!'));
             }
         }
         throw new HttpResponseException($this->requestValidation(formatErrorValidatioon($validator->errors()), 'Failed!'));

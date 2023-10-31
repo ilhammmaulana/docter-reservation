@@ -18,7 +18,7 @@
                 $table->timestamp('time_reservation');
                 $table->timestamp('time_arrival')->nullable();
                 $table->text('remarks');
-                $table->string('status')->nullable();
+                $table->enum('status', ['hold', 'cancel', 'verify', 'done'])->default('hold');
                 $table->foreignUuid('docter_id')->constrained('docters', 'id');
                 $table->foreignUuid('created_by')->constrained('users', 'id');
                 $table->integer('queue_number');

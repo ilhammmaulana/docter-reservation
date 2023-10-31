@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\CreateReservationRequest;
+use App\Http\Resources\ReservationResource;
+use App\Models\Reservation;
 use App\Repositories\ReservationRepository;
 use Illuminate\Http\Request;
 
@@ -17,7 +19,7 @@ class ReservationController extends ApiController
      */
     public function index()
     {
-        //
+        return $this->requestSuccessData(ReservationResource::collection(ReservationRepository::getReservation($this->guard()->id())));
     }
 
     /**
@@ -37,9 +39,21 @@ class ReservationController extends ApiController
      */
     public function store(CreateReservationRequest $createReservationRequest)
     {
-        $input = $createReservationRequest->only("docter_id","remarks","time_reservation");
-        ReservationRepository::createReservation($input);
-        return $this->requestSuccess();
+        try { 
+            $input = $createReservationRequest->only("docter_id", "remarks", "time_reservation");
+            $input['time_reservation'] = now()->parse($input['time_reservation'])->toIso8601String();
+            $input['created_by'] = $this->guard()->id();
+            $today = now()->startOfDay();
+            $reservationCount = Reservation::where('created_by', $input['created_by'])->where('docter_id', $input['docter_id'])->whereDate('created_at', $today)->count();
+            if($reservationCount > 0){
+                return $this->badRequest('allready_reservation', 'You allready reservation!');
+            }
+
+            ReservationRepository::createReservation($input);
+            return $this->requestSuccess();
+        } catch (\Throwable $th) {
+            throw $th;
+        }
         
     }
 
