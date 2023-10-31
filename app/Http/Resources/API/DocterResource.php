@@ -20,6 +20,7 @@ class DocterResource extends JsonResource
             "images" => DocterImageResource::collection($this->images),
             "name" => $this->name,
             "address" => $this->address,
+            "status_opration" => $this->status_opration === 1 ? true : false,
             "category" => $this->category,
             "subdistrict" => new SubdistrictResource($this->subdistrict),
         ];

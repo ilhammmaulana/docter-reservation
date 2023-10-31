@@ -16,6 +16,7 @@
             Schema::create('reservations', function (Blueprint $table) {
                 $table->uuid('id')->primary()->index();
                 $table->timestamp('time_reservation');
+                $table->timestamp('time_arrival')->nullable();
                 $table->text('remarks');
                 $table->string('status')->nullable();
                 $table->foreignUuid('docter_id')->constrained('docters', 'id');

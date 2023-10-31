@@ -24,6 +24,7 @@ class CreateDoctersTable extends Migration
             $table->string('photo')->default(null)->nullable();
             $table->foreignUuid('category_docter_id')->constrained('category_docters', 'id');
             $table->string('password');
+            $table->boolean('status_opration')->default(true);
             $table->softDeletes();
             $table->timestamps();
         });
