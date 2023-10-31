@@ -39,44 +39,19 @@
                                                 <p class="text-sm font-weight-bold mb-0">{{ $reservation->created_at }} 
                                                 </p></td>
                                                 <td class="align-middle text-end d-flex gap-2">
-                                                    <button class="btn btn-info">Verify</button>
+                                                    <form action="{{ route('reservations.verify', $reservation->id) }}" method="POST" >
+                                                        @csrf
+                                                        @method('POST')
+                                                        <button class="btn btn-info">Verify</button>
+                                                    </form>
                                                     <button class="btn btn-warning">Cancel</button>
                                                     <button class="btn btn-primary">Detail</button>
                                                 </td>
-                               
                                 </tr>
                             @endforeach
                             </tbody>
                         </table>
-                        {{-- <ul class="pagination pagination-primary ms-3 mt-4">
-                            @if ($users->onFirstPage())
-                                <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
-                            @else
-                                <li class="page-item"><a class="page-link" href="{{ $users->previousPageUrl() }}"
-                                        rel="prev">&laquo;</a></li>
-                            @endif
 
-                            @if ($users->lastPage() == 1)
-                                <li class="page-item active"><span class="page-link">1</span></li>
-                            @else
-                                @foreach ($users->getUrlRange(1, $users->lastPage()) as $page => $url)
-                                    @if ($page == $users->currentPage())
-                                        <li class="page-item active"><span class="page-link">{{ $page }}</span>
-                                        </li>
-                                    @else
-                                        <li class="page-item"><a class="page-link"
-                                                href="{{ $url }}">{{ $page }}</a></li>
-                                    @endif
-                                @endforeach
-                            @endif
-
-                            @if ($users->hasMorePages())
-                                <li class="page-item"><a class="page-link" href="{{ $users->nextPageUrl() }}"
-                                        rel="next">&raquo;</a></li>
-                            @else
-                                <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
-                            @endif
-                        </ul> --}}
                     </div>
                 </div>
             </div>

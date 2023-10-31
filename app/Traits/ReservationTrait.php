@@ -14,18 +14,8 @@ trait ReservationTrait
     {
         static::creating(function ($model) {
             $model->{$model->getKeyName()} = Str::uuid()->toString();            
-            $docterId = $model->docter_id;
-            $queueNumber = static::generateQueueNumber($docterId);
-            $model->queue_number = $queueNumber;
         });
     }
 
-    public static function generateQueueNumber($docterId)
-    {
-        $today = now()->startOfDay();
-        $existingReservations = static::where('docter_id', $docterId)
-            ->whereDate('created_at', $today)
-            ->count();
-        return $existingReservations + 1;
-    }
+ 
 }

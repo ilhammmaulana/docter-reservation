@@ -46,6 +46,9 @@ Route::group(['middleware' => 'auth'], function () {
     });
     Route::middleware(['docter'])->prefix('docters')->group(function () {
         Route::resource('reservations', ReservationController::class)->names('reservations');
+        Route::prefix('reservations')->group(function(){
+            Route::post('verify/{id}', [ReservationController::class, 'verify'])->name('reservations.verify');
+        });
     });
     Route::resource('docter-images', DocterImageController::class)->names('docter-images');
     // Route::prefix('docter-images')->group(function () {

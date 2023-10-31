@@ -22,4 +22,12 @@ class Reservation extends Model
     public function docter (){
         return $this->belongsTo(Docter::class,'docter_id');
     }
+    public static function generateQueueNumber($docterId)
+    {
+        $today = now()->startOfDay();
+        $existingReservations = static::where('docter_id', $docterId)
+            ->whereDate('created_at', $today)
+            ->count();
+        return $existingReservations + 1;
+    }
 }
