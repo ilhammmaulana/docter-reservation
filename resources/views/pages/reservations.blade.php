@@ -39,13 +39,25 @@
                                                 <p class="text-sm font-weight-bold mb-0">{{ $reservation->created_at }} 
                                                 </p></td>
                                                 <td class="align-middle text-end d-flex gap-2">
+                                                    @if($reservation->status === 'hold')
                                                     <form action="{{ route('reservations.verify', $reservation->id) }}" method="POST" >
                                                         @csrf
                                                         @method('POST')
                                                         <button class="btn btn-info">Verify</button>
                                                     </form>
                                                     <button class="btn btn-warning">Cancel</button>
-                                                    <button class="btn btn-primary">Detail</button>
+                                                    @endif
+                                                    @if($reservation->status === 'verify')
+                                                    <form action="{{ route('reservations.arrived', $reservation->id) }}" method="POST" >
+                                                        @csrf
+                                                        @method('POST')
+                                                        <button class="btn btn-info">Arrived</button>
+                                                    </form>
+                                                    @endif
+                                                    @if($reservation->status === 'verify')
+                                                        <button class="btn btn-info">Arrived</button>
+                                                    @endif
+                                                    <button class="btn btn-secondary">Detail</button>
                                                 </td>
                                 </tr>
                             @endforeach

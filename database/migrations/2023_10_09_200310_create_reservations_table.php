@@ -16,7 +16,7 @@
             Schema::create('reservations', function (Blueprint $table) {
                 $table->uuid('id')->primary()->index();
                 $table->text('remarks');
-                $table->enum('status', ['hold', 'cancel', 'verify', 'done'])->default('hold');
+                $table->enum('status', ['hold', 'cancel', 'verify', 'arrived', 'done'])->default('hold');
                 $table->foreignUuid('docter_id')->constrained('docters', 'id');
                 $table->foreignUuid('created_by')->constrained('users', 'id');
                 $table->integer('queue_number')->nullable();

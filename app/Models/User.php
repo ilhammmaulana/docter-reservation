@@ -16,7 +16,7 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasFactory, Notifiable, SoftDeletes, HasRoles, AssignRoleUser;
     protected $table = 'users';
-    protected $fillable = ['name', 'email', 'phone', 'password', 'photo', 'subdistrict_id'];
+    protected $fillable = ['name', 'email', 'phone', 'password', 'photo', 'subdistrict_id', 'device_token'];
     protected $primaryKey = 'id';
     public $incrementing = false;
     protected $keyType = 'string';

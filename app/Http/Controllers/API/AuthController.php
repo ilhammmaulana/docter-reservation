@@ -30,6 +30,7 @@ class AuthController extends ApiController
     {
         $loginType = filter_var($loginRequest->input('email_or_phone'), FILTER_VALIDATE_EMAIL) ? 'email' : 'phone';
 
+
         if ($loginType == 'phone') {
             $phoneNumber = $loginRequest->input('email_or_phone');
             if (!ctype_digit($phoneNumber)) {
@@ -43,6 +44,9 @@ class AuthController extends ApiController
         $expiresIn = $loginRequest->input('expires_in') ?: config('jwt.ttl');
         if (!$token = $this->guard()->setTTL($expiresIn)->attempt($credentials)) {
             return $this->requestUnauthorized('Login Failed! ,Email or phone number and password is incorrect');
+        }
+        if ($deviceToken = $loginRequest->header('device_token')) {
+            User::find($this->guard()->id())->update(['device_token' => $deviceToken]);
         }
         return $this->respondWithToken($token);
     }
