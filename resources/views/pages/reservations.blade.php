@@ -54,9 +54,15 @@
                                                         <button class="btn btn-info">Arrived</button>
                                                     </form>
                                                     @endif
-                                                    @if($reservation->status === 'verify')
-                                                        <button class="btn btn-info">Arrived</button>
+                                                    @if($reservation->status === 'arrived')
+                                                    <form action="{{ route('reservations.done', $reservation->id) }}" method="POST" >
+                                                        @csrf
+                                                        @method('POST')
+                                                        <button class="btn btn-success">Done this reservation</button>
+                                                    </form>
                                                     @endif
+                                                  
+                                                    
                                                     <button class="btn btn-secondary">Detail</button>
                                                 </td>
                                 </tr>

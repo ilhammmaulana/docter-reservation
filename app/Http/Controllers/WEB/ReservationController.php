@@ -52,6 +52,20 @@ class ReservationController extends Controller
             'status' => 'arrived',
             'time_arrival' => now()
         ]);
-        return redirect()->route('reservations.index')->with('success', 'Success update this reservatio');
+        return redirect()->route('reservations.index')->with('success', 'Success update this reservation!');
+    }
+    public function done($id)
+    {
+
+        $idDocter = getDataUser()->id;
+        $reservation = Reservation::with('docter')->where('id', $id)->firstOrFail();
+        if ($reservation->docter->id !== $idDocter) {
+            return redirect()->route('reservations.index')->with('error', 'You not have access!');
+        }
+        $reservation->update([
+            'status' => 'done',
+            'done_at' => now()
+        ]);
+        return redirect()->route('reservations.index')->with('success', 'Success update this reservation!');
     }
 }
