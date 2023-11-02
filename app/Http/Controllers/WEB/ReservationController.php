@@ -31,7 +31,6 @@ class ReservationController extends Controller
             'queue_number' => $queueNumber
         ]);
         $deviceToken = User::where('id', $reservation->create_by)->pluck('device_token')->first();
-        dd($deviceToken);
         $titleNotificationTemplate = "Reservasi kamu sudah berhasil di verifikasi oleh " . $reservation->docter->name;
         FCM::android([$deviceToken])->send([
             'title' =>  $titleNotificationTemplate,
