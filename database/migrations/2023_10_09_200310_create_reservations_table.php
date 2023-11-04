@@ -24,7 +24,7 @@
                 $table->timestamp('verify_at')->nullable();
                 $table->timestamp('done_at')->nullable();
                 $table->timestamp('time_arrival')->nullable();
-                $table->timestamp('time_reservation');
+                $table->timestamp('time_reservation')->nullable();
                 $table->timestamps();
             });
         }
