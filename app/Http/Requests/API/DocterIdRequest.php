@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class CartIdRequest extends FormRequest
+class DocterIdRequest extends FormRequest
 {
     use ResponseAPI;
     /**
@@ -28,11 +28,20 @@ class CartIdRequest extends FormRequest
     public function rules()
     {
         return [
-            "id_cart" => "required"
+            "docter_id" => "required|exists:docters,id"
         ];
     }
     public function failedValidation(Validator $validator)
     {
+        $errors = $validator->errors();
+
+        if ($errors->has('docter_id')) {
+            $docterError = $errors->get('docter_id');
+
+            if (in_array('The selected docter id is invalid.', $docterError)) {
+                throw new HttpResponseException($this->requestNotFound('Docter not found!'));
+            }
+        }
         throw new HttpResponseException($this->requestValidation(formatErrorValidatioon($validator->errors()), 'Failed!'));
     }
 }

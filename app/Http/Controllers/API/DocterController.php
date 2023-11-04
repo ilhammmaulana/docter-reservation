@@ -26,9 +26,9 @@ class DocterController extends ApiController
     public function index(Request $request)
     {
         if ($q = $request->query('q')) {
-            return  $this->requestSuccessData($this->docterRepository->searchDocter($q));
+            return  $this->requestSuccessData(DocterResource::collection($this->docterRepository->searchDocter($q, $this->guard()->id())));
         }
-        return $this->requestSuccessData(DocterResource::collection($this->docterRepository->all()));
+        return $this->requestSuccessData(DocterResource::collection($this->docterRepository->getDocters($this->guard()->id())));
     }
 
     /**
@@ -61,7 +61,7 @@ class DocterController extends ApiController
     public function show($id)
     {
         try {
-            return $this->requestSuccessData(new DocterResource($this->docterRepository->getDocterById($id)));
+            return $this->requestSuccessData(new DocterResource($this->docterRepository->getDocterById($id, $this->guard()->id())));
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $th) {
             return $this->requestNotFound('Docter not found!');
         } catch (\Throwable $th) {
@@ -106,7 +106,7 @@ class DocterController extends ApiController
     public function filterBySubdistrict($id)
     {
         try {
-            return $this->requestSuccessData(DocterResource::collection($this->docterRepository->getDocterBySubdistrictId($id))); 
+            return $this->requestSuccessData(DocterResource::collection($this->docterRepository->getDocterBySubdistrictId($id, $this->guard()->id())));
         } catch (\Throwable $th) {
             throw $th;
         }

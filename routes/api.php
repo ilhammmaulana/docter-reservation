@@ -10,6 +10,7 @@ use App\Http\Controllers\API\OrderController;
 use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\ReservationController;
 use App\Http\Controllers\API\ReviewController;
+use App\Http\Controllers\API\SavedDocterController;
 use App\Http\Controllers\API\SubdistrictController;
 use App\Models\Docter;
 use Illuminate\Http\Request;
@@ -46,11 +47,12 @@ Route::middleware([
     ], function () {
         Route::post('profile', [AuthController::class, 'update']);
     });
-    Route::resource('reservations', ReservationController::class)->only('index','store', 'show')->names('api-reservations');
+    Route::resource('reservations', ReservationController::class)->only('index', 'store', 'show')->names('api-reservations');
     Route::resource('subdistricts', SubdistrictController::class)->only('index');
-    Route::prefix('docters')->group(function() {
+    Route::prefix('docters')->group(function () {
+        Route::resource('saved', SavedDocterController::class)->only('index', 'store');
         Route::resource('categories', DocterCategoryController::class)->only('index', 'show');
-        Route::controller(DocterController::class)->group(function(){
+        Route::controller(DocterController::class)->group(function () {
             Route::get('subdistricts/{id}', 'filterBySubdistrict');
         });
     });

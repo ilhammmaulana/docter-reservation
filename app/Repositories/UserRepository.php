@@ -44,7 +44,6 @@ class UserRepository
         if (!$role) {
             return null;
         }
-
         $data = $role->users()
             ->where('id', '!=', $user_id)
             ->latest()

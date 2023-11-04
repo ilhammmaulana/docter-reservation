@@ -55,7 +55,7 @@
                                                     </form>
                                                     @endif
                                                     @if($reservation->status === 'arrived')
-                                                    <form action="{{ route('reservations.done', $reservation->id) }}" method="POST" >
+                                                    <form action="{{ route('reservations.done' , $reservation->id) }}" method="POST" >
                                                         @csrf
                                                         @method('POST')
                                                         <button class="btn btn-success">Done this reservation</button>

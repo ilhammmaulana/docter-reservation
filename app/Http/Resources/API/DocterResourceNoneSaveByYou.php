@@ -4,7 +4,7 @@ namespace App\Http\Resources\API;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class DocterResource extends JsonResource
+class DocterResourceNoneSaveByYou extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -24,7 +24,6 @@ class DocterResource extends JsonResource
             "description" => $this->description,
             "address" => $this->address,
             "status_opration" => $this->status_opration === 1 ? true : false,
-            "save_by_you" => $this->save_by_you === 1 ? true : false,
             "category" => new CategoryResource($this->category),
             "subdistrict" => new SubdistrictResource($this->subdistrict),
         ];

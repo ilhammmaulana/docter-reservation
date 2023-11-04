@@ -8,6 +8,6 @@ class SubdistrictRepository
 {
     public function all()
     {
-        return Subdistrict::get();
+        return Subdistrict::orderBy('name', 'ASC')->get();
     }
 }

@@ -39,4 +39,6 @@ class Docter extends Authenticatable
     {
         return $this->belongsTo(Subdistrict::class, 'subdistrict_id');
     }
+
+
 }

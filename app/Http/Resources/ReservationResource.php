@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Http\Resources\API\DocterResource;
+use App\Http\Resources\API\DocterResourceNoneSaveByYou;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ReservationResource extends JsonResource
@@ -25,10 +26,9 @@ class ReservationResource extends JsonResource
             'created_by' => $this->created_by,
             'queue_number' => $this->queue_number,
             'remark_cancel' => $this->remark_cancel,
-            'docter' => new DocterResource($this->docter),
+            'docter' => new DocterResourceNoneSaveByYou($this->docter),
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),
         ];
-      
     }
 }

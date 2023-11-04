@@ -128,7 +128,6 @@
                     <div class="form-group">
                         <label for="multiple-images">Upload Images</label>
                         <input class="form-control" type="file" id="multiple-images" max="1"  placeholder="Max 3 Images" multiple name="images[]" onchange="previewImages()">
-                      
                     </div>
                     <button type="submit" class="btn btn-primary">Save Images</button>
                 </form>

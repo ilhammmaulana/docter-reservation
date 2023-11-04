@@ -39,13 +39,13 @@ class ReservationController extends ApiController
      */
     public function store(CreateReservationRequest $createReservationRequest)
     {
-        try { 
+        try {
             $input = $createReservationRequest->only("docter_id", "remarks", "time_reservation");
             $input['time_reservation'] = now()->parse($input['time_reservation'])->toIso8601String();
             $input['created_by'] = $this->guard()->id();
             $today = now()->startOfDay();
             $reservationCount = Reservation::where('created_by', $input['created_by'])->where('docter_id', $input['docter_id'])->whereDate('created_at', $today)->count();
-            if($reservationCount > 0){
+            if ($reservationCount > 0) {
                 return $this->badRequest('allready_reservation', 'You allready reservation!');
             }
 
@@ -54,7 +54,6 @@ class ReservationController extends ApiController
         } catch (\Throwable $th) {
             throw $th;
         }
-        
     }
 
     /**

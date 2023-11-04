@@ -4,29 +4,33 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\API\CategoryProductResource;
-use App\Repositories\CategoryProductRepository;
+use App\Http\Requests\API\DocterIdRequest;
+use App\Http\Resources\API\DocterResource;
+use App\Repositories\DocterRepository;
+use App\Services\DocterService;
 use Illuminate\Http\Request;
 
-class CategoryProductController extends ApiController
+class SavedDocterController extends ApiController
 {
-    private $categoryProductRepository;
+    private $docterRepository, $docterService;
     /**
      * Class constructor.
      */
-    public function __construct(CategoryProductRepository $categoryProductRepository)
+    public function __construct(DocterRepository $docterRepository, DocterService $docterService)
     {
-        $this->categoryProductRepository = $categoryProductRepository;
+        $this->docterRepository = $docterRepository;
+        $this->docterService = $docterService;
     }
 
     /**
      * Display a listing of the resource.
+     * All Docter when docter saved by user
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        return $this->requestSuccessData(CategoryProductResource::collection($this->categoryProductRepository->getAll()));
+        return $this->requestSuccessData(DocterResource::collection($this->docterRepository->getSavedDocter($this->guard()->id())));
     }
 
     /**
@@ -36,7 +40,6 @@ class CategoryProductController extends ApiController
      */
     public function create()
     {
-        //
     }
 
     /**
@@ -45,9 +48,13 @@ class CategoryProductController extends ApiController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(DocterIdRequest $docterIdRequest)
     {
-        //
+        try {
+            return $this->requestSuccessData($this->docterService->toogleSaveDocter($this->guard()->id(), $docterIdRequest->get('docter_id')));
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
     /**
