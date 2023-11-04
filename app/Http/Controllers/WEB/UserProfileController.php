@@ -30,7 +30,7 @@ class UserProfileController extends Controller
         if (!isDocter()) {
             $user = $this->userRepository->getUserById($sessionUser->id);
         } else {
-            $user = $this->docterRepository->getDocterById($sessionUser->id);
+            $user = $this->docterRepository->getDocterById($sessionUser->id, getDataUser()->id);
         }
         return view('pages.user-profile', [
             "user" => $user,
@@ -45,9 +45,9 @@ class UserProfileController extends Controller
             $sessionUser = getDataUser();
 
             if (!isDocter()) {
-                $user = $this->userRepository->getUserById($sessionUser->id);
+                $user = $this->userRepository->getUserById($sessionUser->id,);
             } else {
-                $user = $this->docterRepository->getDocterById($sessionUser->id);
+                $user = $this->docterRepository->getDocterById($sessionUser->id, getDataUser()->id);
             }
             $input = $updateProfileRequest->only('name', 'email', 'phone', 'subdistrict_id');
             if (isDocter()) {

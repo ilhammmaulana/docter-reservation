@@ -89,7 +89,7 @@ class DocterController extends Controller
     public function edit($id)
     {
         return view('pages.docters-edit', [
-            "docter" => $this->docterRepository->getDocterById($id),
+            "docter" => $this->docterRepository->getDocterById($id, getDataUser()->id),
             "categories" => CategoryDocter::all(),
             "subdistricts" => $this->subdistrictRepository->all()
         ]);
@@ -105,7 +105,7 @@ class DocterController extends Controller
     public function update(UpdateDocterRequest $updateDocterRequest, $id)
     {
         $photo = $updateDocterRequest->file('photo');
-        $user = $this->docterRepository->getDocterById($id);
+        $user = $this->docterRepository->getDocterById($id, getDataUser()->id);
         $input = $updateDocterRequest->only('name', 'email', 'phone', 'subdistrict_id', 'description', 'category_docter_id', 'address');
         if ($updateDocterRequest->has('password')) {
             $input['password'] = bcrypt($updateDocterRequest->input('password'));
