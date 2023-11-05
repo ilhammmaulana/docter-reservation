@@ -9,7 +9,7 @@ class ReservationRepository
 
     public static function getReservation($idUser)
     {
-        $reservations = Reservation::with(['docter.category', 'docter.images', 'docter.subdistrict'])->where('created_by', $idUser)->get();
+        $reservations = Reservation::with(['docter.category', 'docter.images', 'docter.subdistrict'])->where('created_by', $idUser)->latest()->get();
         return $reservations;
     }
     public static function createReservation($data)
