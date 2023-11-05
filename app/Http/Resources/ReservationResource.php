@@ -20,6 +20,7 @@ class ReservationResource extends JsonResource
             'id' => $this->id,
             'time_reservation' => $this->time_reservation,
             'time_arrival' => $this->time_arrival,
+            'done_at' => $this->done_at,
             'remarks' => $this->remarks,
             'status' => $this->status,
             'docter_id' => $this->docter_id,
