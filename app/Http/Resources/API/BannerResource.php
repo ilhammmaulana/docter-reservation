@@ -4,6 +4,7 @@ namespace App\Http\Resources\API;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
+
 class BannerResource extends JsonResource
 {
     /**

@@ -9,6 +9,7 @@ use App\Http\Resources\ReservationResource;
 use App\Models\Reservation;
 use App\Repositories\ReservationRepository;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class ReservationController extends ApiController
 {
@@ -41,7 +42,7 @@ class ReservationController extends ApiController
     {
         try {
             $input = $createReservationRequest->only("docter_id", "remarks", "time_reservation");
-            $input['time_reservation'] = now()->parse($input['time_reservation'])->toIso8601String();
+            $input['time_reservation'] = Carbon::parse($input['time_reservation'])->toDateTimeString();
             $input['created_by'] = $this->guard()->id();
             $today = now()->startOfDay();
             $reservationCount = Reservation::where('created_by', $input['created_by'])->where('docter_id', $input['docter_id'])->whereDate('created_at', $today)->count();
