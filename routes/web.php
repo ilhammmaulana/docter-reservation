@@ -51,7 +51,11 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('arrived/{id}', [ReservationController::class, 'arrived'])->name('reservations.arrived');
             Route::post('done/{id}', [ReservationController::class, 'done'])->name('reservations.done');
         });
+        Route::prefix('docters')->group(function () {
+            Route::post('/update-operation', [DocterController::class, 'updateOpration'])->name('docters.update-opration');
+        });
     });
+    
     Route::resource('docter-images', DocterImageController::class)->names('docter-images');
     // Route::prefix('docter-images')->group(function () {
     //     Route::post('/', [DocterImageController::class, 'store']);

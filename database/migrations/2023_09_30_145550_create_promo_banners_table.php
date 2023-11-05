@@ -14,7 +14,8 @@ class CreatePromoBannersTable extends Migration
     public function up()
     {
         Schema::create('promo_banners', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary()->index();
+            $table->text('photo');
             $table->timestamps();
         });
     }

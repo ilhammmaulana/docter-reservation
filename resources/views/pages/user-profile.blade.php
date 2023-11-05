@@ -15,6 +15,20 @@
                         <p class="mb-0 font-weight-bold text-sm">
                             {{ $user->name }}
                         </p>
+                        @docter
+                        Status opration :
+                        <form action="{{ route('docters.update-opration') }}" method="POST">
+                        @csrf
+                        @method('POST')
+                        @if($user->status_opration == 1 )
+                            <p class="text-success"> Active</p>
+                            <button class="btn btn-danger">Change to nonactive</button>
+                            @else
+                            <p class="text-danger"> Nonactive</p>
+                            <button class="btn btn-success">Change to active</button>
+                            @endif
+                        </form>
+                        @endDocter
                     </div>
                 </div>
             </div>
@@ -183,9 +197,7 @@
             @endDocter
             <script>
                   const imagePreview = document.getElementById('imagePreview');
-                const editImagePreview = document.getElementById('editImagePreview');
-                const maxPreviewCount =  {{ $totalCanUploud }};
-
+         
         function previewImage(event) {
             const imageInput = event.target;
 
@@ -220,7 +232,16 @@
                 imagePreview.style.display = 'none';
             }
         }
-    function previewImages() {
+
+
+
+            </script>
+            @docter
+            <script>
+                       const editImagePreview = document.getElementById('editImagePreview');
+                const maxPreviewCount =  {{ $totalCanUploud }};
+
+                    function previewImages() {
     const previewTable = document.getElementById('image-preview-table');
     const previewBody = previewTable.getElementsByTagName('tbody')[0];
     const input = document.getElementById('multiple-images');
@@ -257,8 +278,8 @@
         cell2.appendChild(fileName);
     }
 }
-
             </script>
+            @endDocter
         @include('layouts.footers.auth.footer')
     </div>
 @endsection

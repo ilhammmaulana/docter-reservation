@@ -10,6 +10,7 @@ use App\Models\CategoryDocter;
 use App\Models\Docter;
 use App\Repositories\SubdistrictRepository;
 use App\Repositories\DocterRepository;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -131,5 +132,25 @@ class DocterController extends Controller
     public function destroy($id)
     {
         //
+    }
+    /**
+     * For docter update opration
+     */
+    public function updateOpration()
+    {
+        try {
+            $docter = Docter::findOrFail(getDataUser()->id);
+            if ($docter->status_opration == true) {
+                $docter->status_opration = false;
+            } else {
+                $docter->status_opration = true;
+            }
+            $docter->save();
+            return redirect()->route('profile')->with('success', 'Successfully update your status opration');
+        } catch (ModelNotFoundException $th) {
+            return redirect()->route('docters.index')->with('error', 'Forbidden!');
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 }

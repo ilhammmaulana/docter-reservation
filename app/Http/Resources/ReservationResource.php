@@ -32,4 +32,4 @@ class ReservationResource extends JsonResource
         ];
     }
 }
-// hi
+// hi   

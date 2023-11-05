@@ -11,6 +11,7 @@ use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\ReservationController;
 use App\Http\Controllers\API\ReviewController;
 use App\Http\Controllers\API\SavedDocterController;
+use App\Http\Controllers\API\PromoBannerController;
 use App\Http\Controllers\API\SubdistrictController;
 use App\Models\Docter;
 use Illuminate\Http\Request;
@@ -56,5 +57,11 @@ Route::middleware([
             Route::get('subdistricts/{id}', 'filterBySubdistrict');
         });
     });
+    Route::resource('promo-banners', PromoBannerController::class)->only('index', 'store', 'destroy');
+
+    Route::prefix('promo-banners')->group(function () {
+        Route::post('/update/{id}', [PromoBannerController::class,'update']);
+    });
+
     Route::resource('docters', DocterController::class)->only('index', 'show')->names('api-docters');
 });
