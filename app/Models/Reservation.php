@@ -14,7 +14,7 @@ class Reservation extends Model
     protected $primaryKey = 'id';
     public $incrementing = false;
     protected $keyType = 'string';
-    protected $fillable = ['id', 'time_reservation', 'time_arrival', 'remarks', 'status', 'docter_id', 'created_by', 'queue_number', 'remark_cancel'];
+    protected $fillable = ['id', 'time_reservation', 'time_arrival','done_at','verify_at', 'remarks', 'status', 'docter_id', 'created_by', 'queue_number', 'remark_cancel'];
 
     public function user()
     {
