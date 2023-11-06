@@ -100,7 +100,9 @@
                                                     @endif
                                                   
                                                     
-                                                    <button class="btn btn-secondary">Detail</button>
+                                                    <a href="{{ route('reservations.show', $reservation->id) }}">
+                                                        <button class="btn btn-secondary">Detail</button>
+                                                    </a>
                                                 </td>
                                 </tr>
                             @endforeach

@@ -18,10 +18,10 @@ class ReservationController extends Controller
             'reservations' => ReservationRepository::getReservationTodayForDocter(getDataUser()->id)
         ]);
     }
-    public function show()
+    public function show($id)
     {
         return view('pages.reservations-detail', [
-            // 'reservation' => Reservation::(getDataUser()->id)
+            'reservation' => ReservationRepository::getOne($id)
         ]);
     }
     public function verify($id)

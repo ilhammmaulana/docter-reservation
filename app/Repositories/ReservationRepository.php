@@ -26,4 +26,7 @@ class ReservationRepository
         $reservations = Reservation::with(['docter.category', 'docter.images', 'docter.subdistrict'])->whereDate('created_at', $today)->where('docter_id', $docterId)->get();
         return $reservations;
     }
+    public static function getOne($idReservation){
+        return Reservation::with(['docter.category', 'docter.images', 'docter.subdistrict', 'user'])->firstOrFail();
+    }
 }
