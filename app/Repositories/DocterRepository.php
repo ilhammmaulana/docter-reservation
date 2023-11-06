@@ -11,6 +11,10 @@ use Illuminate\Support\Facades\DB;
 
 class DocterRepository
 {
+    public static function countDocter()
+    {
+        return Docter::count();
+    }
     public static function searchDocter($q, $user_id)
     {
         $docters = Docter::with(['images', 'category', 'subdistrict'])
