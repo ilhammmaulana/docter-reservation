@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\CategoryDocter;
 use App\Models\Docter;
+use App\Models\Reservation;
 use App\Models\SavedDocter;
 use App\Models\Subdistrict;
 use App\Models\User;
@@ -105,5 +106,18 @@ class DocterRepository
             ->get();
 
         return $docters;
+    }
+    public function getDocterHistory($user_id)
+    {
+        $orderedDoctors = Reservation::where('created_by', $user_id)->latest()->take(3)->pluck('docter_id');
+        $docters = Docter::with(['images', 'category', 'subdistrict'])
+        ->leftJoin('saved_docters', function ($join) use ($user_id) {
+            $join->on('docters.id', '=', 'saved_docters.docter_id')
+                ->where('saved_docters.created_by', $user_id);
+        })
+        ->select('docters.*', DB::raw('IF(saved_docters.docter_id IS NOT NULL, 1, 0) as save_by_you'))
+        ->whereIn('id',$orderedDoctors)->get();
+    return $docters;
+        
     }
 }

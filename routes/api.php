@@ -51,6 +51,7 @@ Route::middleware([
     Route::resource('reservations', ReservationController::class)->only('index', 'store', 'show')->names('api-reservations');
     Route::resource('subdistricts', SubdistrictController::class)->only('index');
     Route::prefix('docters')->group(function () {
+        Route::get('history', [DocterController::class, 'historyDocter']);
         Route::resource('saved', SavedDocterController::class)->only('index', 'store');
         Route::resource('categories', DocterCategoryController::class)->only('index', 'show');
         Route::controller(DocterController::class)->group(function () {

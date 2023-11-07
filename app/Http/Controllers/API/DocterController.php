@@ -111,4 +111,9 @@ class DocterController extends ApiController
             throw $th;
         }
     }
+    public function historyDocter()
+    {
+         return $this->requestSuccessData($this->docterRepository->getDocterHistory($this->guard()->id()));
+    }
 }
+
