@@ -5,8 +5,10 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\API\DocterResource;
+use App\Models\Docter;
 use App\Repositories\DocterRepository;
 use Illuminate\Http\Request;
+use DB;
 
 class DocterController extends ApiController
 {
@@ -114,6 +116,32 @@ class DocterController extends ApiController
     public function historyDocter()
     {
          return $this->requestSuccessData($this->docterRepository->getDocterHistory($this->guard()->id()));
+    }
+    public function filterDocter(Request $request)
+    {
+        $subdistrict_id = $request->input('subdistrict_id');
+        $category_id = $request->input('category_id');
+        $user_id = $request->user()->id; 
+
+        $docters = Docter::with(['images', 'category', 'subdistrict'])
+        ->orWhere(function ($query) use ($category_id, $subdistrict_id) {
+            if ($category_id && !$subdistrict_id) {
+                $query->where('category_docter_id', $category_id);
+            } elseif (!$category_id && $subdistrict_id) {
+                $query->where('subdistrict_id', $subdistrict_id);
+            }elseif($category_id && $subdistrict_id) {
+                $query->where('subdistrict_id', $subdistrict_id)
+                        ->where('category_docter_id', $category_id);
+            }
+        })
+        ->leftJoin('saved_docters', function ($join) use ($user_id) {
+            $join->on('docters.id', '=', 'saved_docters.docter_id')
+                ->where('saved_docters.created_by', $user_id);
+        })
+        ->select('docters.*', DB::raw("IF(saved_docters.created_by = '$user_id', 1, 0) as save_by_you"))
+        ->get();
+    
+    return $this->requestSuccessData(DocterResource::collection($docters));  
     }
 }
 

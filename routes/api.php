@@ -56,6 +56,7 @@ Route::middleware([
         Route::resource('categories', DocterCategoryController::class)->only('index', 'show');
         Route::controller(DocterController::class)->group(function () {
             Route::get('subdistricts/{id}', 'filterBySubdistrict');
+            Route::get('filter', 'filterDocter');
         });
     });
     Route::resource('promo-banners', PromoBannerController::class)->only('index', 'store', 'destroy');

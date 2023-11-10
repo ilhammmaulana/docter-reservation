@@ -120,4 +120,14 @@ class DocterRepository
     return $docters;
         
     }
+    public function filterDocter($category_id, $subdistrict_id, $user_id)
+    {
+        $docters = Docter::with(['images', 'category', 'subdistrict'])->where('category_id', $category_id)->where('subdistrict_id', $subdistrict_id)
+            ->leftJoin('saved_docters', function ($join) use ($user_id) {
+                $join->on('docters.id', '=', 'saved_docters.docter_id')
+                    ->where('saved_docters.created_by', $user_id);
+            })->select('docters.*', DB::raw("IF(saved_docters.created_by = '$user_id', 1, 0) as save_by_you"))
+            ->get();
+        return $docters;
+    }
 }
