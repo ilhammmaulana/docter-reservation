@@ -25,6 +25,14 @@ trait ResponseAPI
             "log" => $log
         ], Response::HTTP_OK);
     }
+    public function badRequestWithLog($errors)
+    {
+        return response()->json([
+            "status" => Response::HTTP_BAD_REQUEST,
+            "message" => 'Failed!',
+            "errors" => $errors
+        ], Response::HTTP_BAD_REQUEST);
+    }
     public static function requestSuccess($message = 'Success!', $code = 200)
     {
         return response()->json([

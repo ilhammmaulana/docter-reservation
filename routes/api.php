@@ -13,8 +13,8 @@ use App\Http\Controllers\API\ReviewController;
 use App\Http\Controllers\API\SavedDocterController;
 use App\Http\Controllers\API\PromoBannerController;
 use App\Http\Controllers\API\SubdistrictController;
-use App\Models\Docter;
-use Illuminate\Http\Request;
+use App\Http\Controllers\API\NotificationController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -66,3 +66,10 @@ Route::middleware([
 
     Route::resource('docters', DocterController::class)->only('index', 'show')->names('api-docters');
 });
+
+Route::group([
+    "prefix" => "dev",
+], function () {
+    Route::post('notification', [NotificationController::class, 'sendNotificationDevelopment']);
+});
+
