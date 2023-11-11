@@ -71,7 +71,6 @@ class ReservationController extends Controller
             return redirect()->route('reservations.index')->with('error', 'You not have access!');
         }
         $deviceToken = User::where('id', $reservation->created_by)->pluck('device_token')->first();
-        dd($deviceToken);
         $titleNotificationTemplate = "Reservasi ke " . $reservation->docter->name . " mu sudah selesai";
         FCM::android([$deviceToken])->send([
             'title' =>  $titleNotificationTemplate,
