@@ -52,10 +52,10 @@ class ReservationController extends ApiController
             if(!$timeReservation->isToday()){
                 return $this->badRequest('not_today', 'Reservation date is not today');
             }
-            if ( !$timeReservation->greaterThanOrEqualTo($startTime) && !$timeReservation->lessThan($endTime)) {
+            if ($timeReservation->lessThan($startTime) || $timeReservation->greaterThan($endTime)) {
                 return $this->badRequest('invalid_time', 'Invalid reservation time. Reservations are only allowed between 09:00 and 17:00 on the same day.');
-            } 
-            
+            }
+        
             $reservationCount = Reservation::where('created_by', $input['created_by'])->where('docter_id', $input['docter_id'])->whereDate('created_at', $today)->count();
             if ($reservationCount > 0) {
                 return $this->badRequest('allready_reservation', 'You allready reservation!');
