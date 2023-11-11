@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\ApiController;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\API\CreateReservationRequest;
 use App\Http\Resources\ReservationResource;
 use App\Models\Reservation;

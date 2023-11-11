@@ -1,16 +1,16 @@
 <?php
 
-use App\Http\Controllers\WEB\ReservationController;
-use App\Http\Controllers\WEB\Admin\DocterController;
-use App\Http\Controllers\WEB\AdminController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\WEB\PageController;
 use App\Http\Controllers\WEB\HomeController;
-use App\Http\Controllers\WEB\Docter\LoginController as DocterLoginController;
-use App\Http\Controllers\WEB\Admin\LoginController as AdminLoginController;
+use App\Http\Controllers\WEB\PageController;
+use App\Http\Controllers\WEB\AdminController;
 use App\Http\Controllers\WEB\DocterImageController;
+use App\Http\Controllers\WEB\ReservationController;
 use App\Http\Controllers\WEB\UserProfileController;
+use App\Http\Controllers\WEB\Admin\DocterController;
 use App\Http\Controllers\WEB\UserManagementController;
+use App\Http\Controllers\WEB\Admin\LoginController as AdminLoginController;
+use App\Http\Controllers\WEB\Docter\LoginController as DocterLoginController;
 
 /*
 |--------------------------------------------------------------------------
