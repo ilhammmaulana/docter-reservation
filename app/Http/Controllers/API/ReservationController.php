@@ -41,17 +41,28 @@ class ReservationController extends ApiController
     public function store(CreateReservationRequest $createReservationRequest)
     {
         try {
+            $startTime = Carbon::parse('09:00:00');
+            $endTime = Carbon::parse('17:00:00');
             $input = $createReservationRequest->only("docter_id", "remarks", "time_reservation");
             $input['time_reservation'] = Carbon::parse($input['time_reservation'])->toDateTimeString();
+            $timeReservation = Carbon::parse($input['time_reservation']);
             $input['created_by'] = $this->guard()->id();
             $today = now()->startOfDay();
+
+            if(!$timeReservation->isToday()){
+                return $this->badRequest('not_today', 'Reservation date is not today');
+            }
+            if ( !$timeReservation->greaterThanOrEqualTo($startTime) && !$timeReservation->lessThan($endTime)) {
+                return $this->badRequest('invalid_time', 'Invalid reservation time. Reservations are only allowed between 09:00 and 17:00 on the same day.');
+            } 
+            
             $reservationCount = Reservation::where('created_by', $input['created_by'])->where('docter_id', $input['docter_id'])->whereDate('created_at', $today)->count();
             if ($reservationCount > 0) {
                 return $this->badRequest('allready_reservation', 'You allready reservation!');
             }
-
             ReservationRepository::createReservation($input);
             return $this->requestSuccess();
+
         } catch (\Throwable $th) {
             throw $th;
         }

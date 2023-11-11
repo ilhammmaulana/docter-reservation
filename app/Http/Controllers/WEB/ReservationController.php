@@ -37,7 +37,7 @@ class ReservationController extends Controller
             'verify_at' => now(),
             'queue_number' => $queueNumber
         ]);
-        $deviceToken = User::where('id', $reservation->create_by)->pluck('device_token')->first();
+        $deviceToken = User::where('id', $reservation->created_by)->pluck('device_token')->first();
         $titleNotificationTemplate = "Reservasi kamu sudah berhasil di verifikasi oleh " . $reservation->docter->name;
         FCM::android([$deviceToken])->send([
             'title' =>  $titleNotificationTemplate,
@@ -64,21 +64,40 @@ class ReservationController extends Controller
     public function done($id)
     {
 
+       try {
         $idDocter = getDataUser()->id;
         $reservation = Reservation::with('docter')->where('id', $id)->firstOrFail();
         if ($reservation->docter->id !== $idDocter) {
             return redirect()->route('reservations.index')->with('error', 'You not have access!');
         }
+        $deviceToken = User::where('id', $reservation->created_by)->pluck('device_token')->first();
+        dd($deviceToken);
+        $titleNotificationTemplate = "Reservasi ke " . $reservation->docter->name . " mu sudah selesai";
+        FCM::android([$deviceToken])->send([
+            'title' =>  $titleNotificationTemplate,
+            'message' => "Trimakasih telah reservasi!",
+            'reservation_id' => $reservation->id,
+        ]);
         $reservation->update([
             'status' => 'done',
             'done_at' => now()
         ]);
         return redirect()->route('reservations.index')->with('success', 'Success update this reservation!');
+       } catch (\Throwable $th) {
+        throw $th;
+       }
     }
     public function cancel (CancelReservationRequest $cancelReservationRequest, $id){
         $input = $cancelReservationRequest->only('remark_cancel');
         $idDocter = getDataUser()->id;
         $reservation = Reservation::with('docter')->where('id', $id)->firstOrFail();
+        $deviceToken = User::where('id', $reservation->created_by)->pluck('device_token')->first();
+        $titleNotificationTemplate = "Maaf dokter" . $reservation->docter->name . " mengcancel reservasi mu karena hal tertentu";
+        FCM::android([$deviceToken])->send([
+            'title' =>  $titleNotificationTemplate,
+            'message' => "Check ke aplikasi untuk tahu kenapa docter cancel reservasi mu!",
+            'reservation_id' => $reservation->id,
+        ]);
         if ($reservation->docter->id !== $idDocter) {
             return redirect()->route('reservations.index')->with('error', 'You not have access!');
         }
@@ -86,5 +105,11 @@ class ReservationController extends Controller
         $reservation->update($input);
         return redirect()->route('reservations.index')->with('success', 'Success cancel this reservation!');
 
+    }
+    public function history()
+    {
+        return view('pages.reservations-history', [
+            'reservations' => ReservationRepository::getHistoryReservation(getDataUser()->id)
+        ]);    
     }
 }

@@ -21,7 +21,7 @@ class NotificationController extends ApiController
         try {
             $data = $request->only('title', 'message');
             $to = $request->only('to');
-            $logFCM = FCM::android($to)::send($data);
+            $logFCM = FCM::android($to)->send($data);
             if ($logFCM['success'] === 1) {
                 return $this->requestSuccessWithLog($logFCM);
             } else {

@@ -46,6 +46,7 @@ Route::group(['middleware' => 'auth'], function () {
     });
     Route::middleware(['docter'])->prefix('docters')->group(function () {
         Route::resource('reservations', ReservationController::class)->names('reservations');
+        Route::get('history/reservation', [ReservationController::class, 'history'])->name('reservations.history');
         Route::prefix('reservations')->group(function () {
             Route::post('verify/{id}', [ReservationController::class, 'verify'])->name('reservations.verify');
             Route::post('cancel/{id}', [ReservationController::class, 'cancel'])->name('reservations.cancel');

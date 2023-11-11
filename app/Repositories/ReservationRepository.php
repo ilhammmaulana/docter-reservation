@@ -27,6 +27,11 @@ class ReservationRepository
         return $reservations;
     }
     public static function getOne($idReservation){
-        return Reservation::with(['docter.category', 'docter.images', 'docter.subdistrict', 'user'])->firstOrFail();
+        return Reservation::with(['docter.category', 'docter.images', 'docter.subdistrict', 'user'])->where('id', $idReservation)->firstOrFail();
+    }
+    public static function getHistoryReservation($docterId)
+    {
+        $reservations = Reservation::with(['docter.category', 'docter.images', 'docter.subdistrict'])->where('docter_id', $docterId)->latest()->get();
+        return $reservations;
     }
 }
