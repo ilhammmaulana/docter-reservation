@@ -62,7 +62,7 @@ class FCM
                     'title' => trim(strip_tags($data['title'])),
                     'body' => trim(strip_tags($data['message'])),
                 ];
-            }
+            }   
             $response = Http::withHeaders([
                 'Authorization' => "key=" . self::$firebaseKey
             ])->post(self::$firebaseUrl, $postData);

@@ -32,6 +32,8 @@ use Illuminate\Support\Facades\Route;
 Route::post('/auth/login', [AuthController::class, 'login']);
 Route::post('/auth/refresh', [AuthController::class, 'refresh'])->middleware('auth.refresh');
 Route::post('/auth/register', [AuthController::class, 'register']);
+Route::resource('subdistricts', SubdistrictController::class)->only('index');
+
 
 Route::middleware([
     'auth.api'
@@ -49,7 +51,6 @@ Route::middleware([
         Route::post('profile', [AuthController::class, 'update']);
     });
     Route::resource('reservations', ReservationController::class)->only('index', 'store', 'show')->names('api-reservations');
-    Route::resource('subdistricts', SubdistrictController::class)->only('index');
     Route::prefix('docters')->group(function () {
         Route::get('history', [DocterController::class, 'historyDocter']);
         Route::resource('saved', SavedDocterController::class)->only('index', 'store');
